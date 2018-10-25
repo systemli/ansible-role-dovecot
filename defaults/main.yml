@@ -1,0 +1,15 @@
+---
+
+dovecot_auth_mechanisms:
+  - checkpassword
+
+dovecot_default_vsz_limit: 1G
+
+dovecot_mail_location: maildir:{{ dovecot_vmail_path }}/%Ld/%Ln/Maildir
+
+dovecot_mail_uid: 5000
+dovecot_mail_gid: "{{ dovecot_mail_uid }}"
+
+dovecot_usrmgmt_path: /vagrant
+
+dovecot_vmail_path: /var/vmail

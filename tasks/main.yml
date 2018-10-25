@@ -1,0 +1,63 @@
+---
+
+- name: ensure mail user is present
+  user:
+    name: vmail
+    home: "{{ dovecot_vmail_path }}"
+    shell: /bin/false
+    state: present
+    uid: "{{ dovecot_mail_uid }}"
+
+- name: ensure mail home is present
+  file:
+    path: "{{ dovecot_vmail_path }}"
+    state: directory
+    owner: vmail
+    group: vmail
+    mode: "u+rw,g+rw,o-rwx"
+
+- name: ensure dovecot is installed
+  apt:
+    pkg: "{{ item }}"
+    state: present
+  with_items:
+    - dovecot-core
+    - dovecot-common
+    - dovecot-imapd
+    - dovecot-pop3d
+
+- name: set instance_name
+  lineinfile:
+    path: /etc/dovecot/dovecot.conf
+    line: "instance_name = {{ ansible_fqdn }}"
+    regexp: "instance_name ="
+  notify: restart dovecot
+
+- name: set login greeting
+  lineinfile:
+    path: /etc/dovecot/dovecot.conf
+    line: "login_greeting = {{ ansible_fqdn }} ready."
+    regexp: "login_greeting ="
+  notify: restart dovecot
+
+- name: copy checkpassword auth config
+  template:
+    src: auth-checkpassword.conf.ext.j2
+    dest: /etc/dovecot/conf.d/auth-checkpassword.conf.ext
+    owner: root
+    group: root
+    mode: 0644
+
+- name: configure dovecot
+  template:
+    src: "{{ item }}.j2"
+    dest: /etc/dovecot/conf.d/{{ item }}
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - 10-auth.conf
+    - 10-mail.conf
+    - 10-master.conf
+  notify: restart dovecot
+  
