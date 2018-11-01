@@ -20,5 +20,6 @@ dovecot_process_min_avail: 4
 dovecot_postfix_auth: false
 
 dovecot_usrmgmt_path: /vagrant
+dovecot_usrmgmt_user: vagrant
 
 dovecot_vmail_path: /var/vmail

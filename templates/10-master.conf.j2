@@ -92,7 +92,7 @@ service auth {
     group = vmail
   }
 
-  {% if dovecot_postfix_auth %}
+{% if dovecot_postfix_auth %}
   # Postfix smtp-auth
   unix_listener /var/spool/postfix/private/auth {
     mode  = 0660
@@ -100,7 +100,7 @@ service auth {
     group = postfix
   }
 
-  {% endif %}
+{% endif %}
   # Auth process is run as this user.
   #user = $default_internal_user
 }

@@ -48,6 +48,22 @@
     group: root
     mode: 0644
 
+- name: add wrapper to checkpassword script
+  template:
+    src: checkpassword.j2
+    dest: /usr/local/bin/checkpassword
+    owner: root
+    group: vmail
+    mode: 0750
+
+- name: allow dovecot to execute checkpassword script
+  template:
+    src: checkpassword.sudoers.j2
+    dest: /etc/sudoers.d/checkpassword
+    owner: root
+    group: root
+    mode: 0640
+
 - name: configure dovecot
   template:
     src: "{{ item }}.j2"
@@ -60,4 +76,3 @@
     - 10-mail.conf
     - 10-master.conf
   notify: restart dovecot
-  
