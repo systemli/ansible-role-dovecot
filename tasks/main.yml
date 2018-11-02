@@ -48,14 +48,6 @@
     group: root
     mode: 0644
 
-- name: add wrapper to checkpassword script
-  template:
-    src: checkpassword.j2
-    dest: /usr/local/bin/checkpassword
-    owner: root
-    group: dovecot
-    mode: 0750
-
 - name: allow dovecot to execute checkpassword script
   template:
     src: checkpassword.sudoers.j2
