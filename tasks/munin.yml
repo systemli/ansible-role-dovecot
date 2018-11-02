@@ -14,9 +14,9 @@
     state: link
   notify: restart munin-node
 
-- name: Copy custom munin-plugin for dovecot
+- name: Copy config for dovecot munin plugin
   copy: 
-    src: dovecot
+    src: dovecot.munin
     dest: "/etc/munin/plugin-conf.d/dovecot"
     owner: root
     group: root
