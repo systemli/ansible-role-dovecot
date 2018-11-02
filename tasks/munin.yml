@@ -1,0 +1,24 @@
+---
+
+- name: Link shared munin-plugins mail_connections
+  file:
+    src: "/usr/local/share/munin-plugins/plugins/mail/mail_connections"
+    dest: "/etc/munin/plugins/mail_connections"
+    state: link
+  notify: restart munin-node
+
+- name: Link shared munin-plugins for dovecot
+  file:
+    src: "/usr/local/share/munin-plugins/plugins/dovecot/dovecot"
+    dest: "/etc/munin/plugins/dovecot"
+    state: link
+  notify: restart munin-node
+
+- name: Copy custom munin-plugin for dovecot
+  copy: 
+    src: dovecot
+    dest: "/etc/munin/plugin-conf.d/dovecot"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart munin-node
