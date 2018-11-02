@@ -23,3 +23,6 @@ dovecot_usrmgmt_path: /vagrant
 dovecot_usrmgmt_user: vagrant
 
 dovecot_vmail_path: /var/vmail
+
+# enable dovecot munin plugins
+dovecot_munin: false

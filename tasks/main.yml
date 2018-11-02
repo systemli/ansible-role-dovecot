@@ -26,6 +26,12 @@
     - dovecot-imapd
     - dovecot-pop3d
 
+- name: ensure dovecot is in group of user-management
+  user:
+    name: dovecot
+    append: true
+    groups: "{{ dovecot_usrmgmt_user }}"
+
 - name: set instance_name
   lineinfile:
     path: /etc/dovecot/dovecot.conf
@@ -48,14 +54,6 @@
     group: root
     mode: 0644
 
-- name: allow dovecot to execute checkpassword script
-  template:
-    src: checkpassword.sudoers.j2
-    dest: /etc/sudoers.d/checkpassword
-    owner: root
-    group: root
-    mode: 0640
-
 - name: configure dovecot
   template:
     src: "{{ item }}.j2"
@@ -68,3 +66,7 @@
     - 10-mail.conf
     - 10-master.conf
   notify: restart dovecot
+
+- import_tasks: munin.yml
+  when: dovecot_munin
+  tags: munin
