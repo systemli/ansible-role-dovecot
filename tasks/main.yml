@@ -54,6 +54,22 @@
     owner: root
     group: root
     mode: 0644
+  notify: restart dovecot
+
+- name: create self-signed ssl cert
+  block:
+    - template:
+        src: dovecot-openssl.cnf.j2
+        dest: /etc/dovecot/dovecot-openssl.cnf
+        owner: root
+        group: root
+        mode: 0644
+
+    - command: /usr/share/dovecot/mkcert.sh
+      args:
+        creates: /etc/dovecot/dovecot.pem
+        chdir: /etc/dovecot
+  when: not dovecot_ssl_cert is defined
 
 - name: configure dovecot
   template:
@@ -66,6 +82,7 @@
     - 10-auth.conf
     - 10-mail.conf
     - 10-master.conf
+    - 10-ssl.conf
   notify: restart dovecot
 
 - import_tasks: munin.yml
