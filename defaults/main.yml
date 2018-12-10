@@ -15,6 +15,13 @@ dovecot_mail_gid: "{{ dovecot_mail_uid }}"
 dovecot_mail_plugins:
   - quota
 
+dovecot_packages:
+  - dovecot-core
+  - dovecot-common
+  - dovecot-imapd
+  - dovecot-pop3d
+  - dovecot-lmtpd
+
 dovecot_process_min_avail: 4
 
 dovecot_postfix_auth: false

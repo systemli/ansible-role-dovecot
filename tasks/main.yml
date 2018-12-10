@@ -18,14 +18,8 @@
 
 - name: ensure dovecot is installed
   apt:
-    pkg: "{{ item }}"
+    pkg: "{{ dovecot_packages }}"
     state: present
-  with_items:
-    - dovecot-core
-    - dovecot-common
-    - dovecot-imapd
-    - dovecot-pop3d
-    - dovecot-lmtpd
 
 - name: ensure dovecot is in group of user-management
   user:
