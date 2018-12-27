@@ -7,6 +7,16 @@
     shell: /bin/false
     state: present
     uid: "{{ dovecot_mail_uid }}"
+  when: not dovecot_backup_follower
+
+- name: ensure mail user is present
+  user:
+    name: vmail
+    home: "{{ dovecot_vmail_path }}"
+    shell: /bin/bash
+    state: present
+    uid: "{{ dovecot_mail_uid }}"
+  when: dovecot_backup_follower
 
 - name: ensure mail home is present
   file:
@@ -18,8 +28,14 @@
 
 - name: ensure dovecot is installed
   apt:
-    pkg: "{{ dovecot_packages }}"
+    pkg: "{{ item }}"
     state: present
+  with_items:
+    - dovecot-core
+    - dovecot-common
+    - dovecot-imapd
+    - dovecot-pop3d
+    - dovecot-lmtpd
 
 - name: ensure dovecot is in group of user-management
   user:
@@ -82,3 +98,15 @@
 - import_tasks: munin.yml
   when: dovecot_munin
   tags: munin
+
+- import_tasks: dovecot_backup_lead.yml
+  when: dovecot_backup_lead
+  tags:
+    - dovecot_backup
+    - dovecot_backup_lead
+
+- import_tasks: dovecot_backup_follower.yml
+  when: dovecot_backup_follower
+  tags:
+    - dovecot_backup
+    - dovecot_backup_follower

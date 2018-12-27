@@ -1,0 +1,12 @@
+---
+
+- name: ensure ssh private key for dovecot backups are present
+  copy:
+    content: "{{ item.key }}"
+    dest: /root/.ssh/{{ item.name }}
+    owner: root
+    group: root
+    mode: 0600
+  with_items:
+    - {name: dovecot_backup_ed25519, key: "{{ dovecot_backup_ed25519 }}"}
+    - {name: dovecot_backup_ed25519.pub, key: "{{ dovecot_backup_ed25519_pub }}"}

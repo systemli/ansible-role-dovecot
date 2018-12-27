@@ -1,0 +1,24 @@
+---
+
+- name: ensure ssh directory is present
+  file:
+    path: "/var/vmail/.ssh"
+    state: directory
+    owner: vmail
+    group: vmail
+    mode: 0700
+
+- name: ensure ssh directory is present
+  file:
+    path: "/var/vmail/.ssh"
+    state: directory
+    owner: vmail
+    group: vmail
+    mode: 0700
+
+- name: ensure dovecot_backup ssh keys is allowed
+  authorized_key:
+    user: vmail
+    key: "{{ dovecot_backup_ed25519_pub }}"
+    exclusive: True
+    manage_dir: True
