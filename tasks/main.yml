@@ -36,6 +36,8 @@
     - dovecot-imapd
     - dovecot-pop3d
     - dovecot-lmtpd
+    - dovecot-sieve
+    - dovecot-managesieved
 
 - name: ensure dovecot is in group of user-management
   user:
