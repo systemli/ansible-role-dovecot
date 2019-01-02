@@ -25,5 +25,5 @@
   cron:
     name: "Enabled mail backup"
     minute: "0"
-    hour: "2"
+    hour: "*/2"
     job: "/bin/bash {{ dovecot_backup_script_path }}"
