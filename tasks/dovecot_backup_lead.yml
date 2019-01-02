@@ -10,3 +10,20 @@
   with_items:
     - {name: dovecot_backup_ed25519, key: "{{ dovecot_backup_ed25519 }}"}
     - {name: dovecot_backup_ed25519.pub, key: "{{ dovecot_backup_ed25519_pub }}"}
+
+- name: ensure backup script is present
+  template:
+    src: "{{ item }}"
+    dest: "{{ dovecot_backup_script_path }}"
+    owner: root
+    group: root
+    mode: 0755
+  with_items:
+    - dovecot/backup_script.sh.j2
+
+- name: ensure backup cronjob is present
+  cron:
+    name: "Enabled mail backup"
+    minute: "0"
+    hour: "2"
+    job: "/bin/bash {{ dovecot_backup_script_path }}"

@@ -30,3 +30,6 @@ dovecot_munin: false
 # enable dovecot backup
 dovecot_backup_lead: False
 dovecot_backup_follower: False
+
+# backup script
+dovecot_backup_script_path: "/root/sync_mailboxes_to_remote.sh"
