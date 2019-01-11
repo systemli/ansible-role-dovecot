@@ -3,6 +3,4 @@
   hosts: all
   become: true
   roles:
-    - role: ansible-role-prosody
-  vars:
-    __testing: true
+    - role: ansible-role-dovecot
