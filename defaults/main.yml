@@ -3,6 +3,15 @@
 dovecot_auth_mechanisms:
   - checkpassword
 
+dovecot_apt_packages:
+  - dovecot-core
+  - dovecot-common
+  - dovecot-imapd
+  - dovecot-pop3d
+  - dovecot-lmtpd
+  - dovecot-sieve
+  - dovecot-managesieved
+
 dovecot_default_vsz_limit: 1G
 dovecot_default_process_limit: 1000
 dovecot_default_client_limit: 10000
