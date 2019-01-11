@@ -25,3 +25,7 @@ provisioner:
   playbooks:
     converge: ../default/playbook.yml
     verify: ../default/verify.yml
+  inventory:
+    host_vars:
+      instance:
+        dovecot_usrmgmt_user: dovecot
