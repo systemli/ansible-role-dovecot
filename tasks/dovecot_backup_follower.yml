@@ -20,5 +20,5 @@
   authorized_key:
     user: vmail
     key: "{{ dovecot_backup_ed25519_pub }}"
-    exclusive: True
-    manage_dir: True
+    exclusive: true
+    manage_dir: true

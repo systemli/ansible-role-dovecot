@@ -33,11 +33,11 @@
   command: /usr/sbin/postmap /etc/postfix/dnsbl-reply-map
 
 - name: reload systemd
-  become: yes
+  become: true
   command: systemctl daemon-reload
 
 - name: compile before sieves
-  become: yes
+  become: true
   command: /usr/bin/sievec /etc/dovecot/sieve-before/
   notify:
     - restart dovecot

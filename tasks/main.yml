@@ -105,7 +105,7 @@
     group: root
     mode: 0644
   notify: restart dovecot
-  when: "mail_crypt" in dovecot_mail_plugins
+  when: '"mail_crypt" in dovecot_mail_plugins'
 
 - import_tasks: munin.yml
   when: dovecot_munin
