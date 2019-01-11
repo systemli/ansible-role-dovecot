@@ -1,8 +1,9 @@
 ---
 galaxy_info:
+  role_name: dovecot
   author: systemli
   description: |
-    Install and maintain Dovecot from offical repo with Ansible.
+    Install and maintain Dovecot with Ansible.
     Contains tests for Travis CI, Molecule and Vagrant.
   company: systemli.org
   license: GPLv3
