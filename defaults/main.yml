@@ -13,6 +13,7 @@ dovecot_mail_uid: 5000
 dovecot_mail_gid: "{{ dovecot_mail_uid }}"
 
 dovecot_mail_plugins:
+  - mail_crypt
   - quota
 
 dovecot_process_min_avail: 4

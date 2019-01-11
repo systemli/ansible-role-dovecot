@@ -97,6 +97,16 @@
     - 10-ssl.conf
   notify: restart dovecot
 
+- name: configure mail_crypt
+  copy:
+    src: 90-mail-crypt.conf
+    dest: /etc/dovecot/conf.d/
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart dovecot
+  when: "mail_crypt" in dovecot_mail_plugins
+
 - import_tasks: munin.yml
   when: dovecot_munin
   tags: munin
