@@ -33,8 +33,9 @@
   command: /usr/sbin/postmap /etc/postfix/dnsbl-reply-map
 
 - name: reload systemd
+  systemd:
+    daemon_reload: true
   become: true
-  command: systemctl daemon-reload
 
 - name: compile before sieves
   become: true
