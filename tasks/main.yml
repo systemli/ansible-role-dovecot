@@ -101,6 +101,14 @@
   notify: restart dovecot
   when: '"mail_crypt" in dovecot_mail_plugins'
 
+- name: Set dovecot user limit in sysctl
+  sysctl:
+    name: "fs.inotify.max_user_instances"
+    value: "1024"
+    state: present
+    sysctl_file: /etc/sysctl.d/90-ansible-fs.conf
+    sysctl_set: true
+
 - import_tasks: munin.yml
   when: dovecot_munin
   tags: munin
