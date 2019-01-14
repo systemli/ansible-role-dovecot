@@ -24,10 +24,14 @@ dovecot_mail_gid: "{{ dovecot_mail_uid }}"
 dovecot_mail_plugins:
   - mail_crypt
   - quota
+dovecot_mail_plugins_imap: $mail_plugins imap_quota
 
 dovecot_process_min_avail: 4
 
 dovecot_postfix_auth: false
+
+dovecot_quota_options: ":ignoreunlimited:noenforcing"
+dovecot_quota_storage: 1G
 
 dovecot_usrmgmt_path: /vagrant
 dovecot_usrmgmt_user: vagrant
