@@ -33,8 +33,8 @@ dovecot_postfix_auth: false
 dovecot_quota_options: ":ignoreunlimited:noenforcing"
 dovecot_quota_storage: 1G
 
-dovecot_usrmgmt_path: /vagrant
-dovecot_usrmgmt_user: vagrant
+dovecot_userli_path: /vagrant
+dovecot_userli_user: vagrant
 
 dovecot_vmail_path: /var/vmail
 

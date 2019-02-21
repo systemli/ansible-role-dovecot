@@ -31,11 +31,11 @@
     pkg: "{{ dovecot_apt_packages }}"
     state: present
 
-- name: ensure dovecot is in group of user-management
+- name: ensure dovecot is in group of userli
   user:
     name: dovecot
     append: true
-    groups: "{{ dovecot_usrmgmt_user }}"
+    groups: "{{ dovecot_userli_user }}"
 
 - name: set instance_name
   lineinfile:

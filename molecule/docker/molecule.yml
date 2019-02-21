@@ -28,4 +28,4 @@ provisioner:
   inventory:
     host_vars:
       instance:
-        dovecot_usrmgmt_user: dovecot
+        dovecot_userli_user: dovecot

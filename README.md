@@ -3,7 +3,7 @@ ansible-role-dovecot
 
 [![Build Status](https://travis-ci.org/systemli/ansible-role-dovecot.svg?branch=master)](https://travis-ci.org/systemli/ansible-role-dovecot)
 
-Install and maintain Dovecot with Ansible.
+Install and maintain Dovecot with Ansible. Optionally, integrate with [Userli](https://github.com/systemli/userli).
 Contains tests for Travis CI, Molecule and Vagrant.
 
 Requirements
