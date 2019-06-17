@@ -26,7 +26,9 @@ dovecot_mail_plugins:
   - quota
 dovecot_mail_plugins_imap: $mail_plugins imap_quota
 
-dovecot_process_min_avail: 4
+# See https://wiki.dovecot.org/LoginProcess for performance tuning
+dovecot_login_service_count: 1
+dovecot_login_process_min_avail: "{{ ansible_processor_cores * ansible_processor_count }}"
 
 dovecot_postfix_auth: false
 
