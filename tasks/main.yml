@@ -31,6 +31,12 @@
     pkg: "{{ dovecot_apt_packages }}"
     state: present
 
+- name: ensure dovecot is in group of userli
+  user:
+    name: dovecot
+    append: true
+    groups: "{{ dovecot_userli_user }}"
+
 - name: set instance_name
   lineinfile:
     path: /etc/dovecot/dovecot.conf
