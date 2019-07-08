@@ -114,6 +114,7 @@ service auth {
 {% endif %}
   # Auth process is run as this user.
   #user = $default_internal_user
+  extra_groups = {{ dovecot_userli_user }}
 }
 
 service auth-worker {
@@ -121,6 +122,7 @@ service auth-worker {
   # /etc/shadow. If this isn't necessary, the user should be changed to
   # $default_internal_user.
   #user = root
+  user = $default_internal_user
 }
 
 service dict {
