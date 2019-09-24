@@ -73,7 +73,7 @@
       args:
         creates: /etc/dovecot/dovecot.pem
         chdir: /etc/dovecot
-  when: not dovecot_ssl_cert is defined
+  when: not dovecot_ssl_cert is defined and ansible_distribution_release != "buster"
 
 - name: configure dovecot
   template:

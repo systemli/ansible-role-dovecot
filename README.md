@@ -9,8 +9,7 @@ Contains tests for Travis CI, Molecule and Vagrant.
 Requirements
 ------------
 
-Debian 8 or 9. Other versions of Debian/Ubuntu might be supported as well, but aren't tested.
-
+Debian 10, 9, or 8. Other versions of Debian/Ubuntu might be supported as well, but aren't tested.
 
 Tests
 -----
