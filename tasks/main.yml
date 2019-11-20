@@ -1,5 +1,9 @@
 ---
 
+- name: Install role dependencies
+  apt:
+    pkg: "{{ dovecot_dependencies }}"
+
 - name: ensure mail user is present
   user:
     name: vmail

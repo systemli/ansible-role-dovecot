@@ -12,6 +12,9 @@ dovecot_apt_packages:
   - dovecot-sieve
   - dovecot-managesieved
 
+dovecot_dependencies:
+  - procps
+
 dovecot_default_vsz_limit: 1G
 dovecot_default_process_limit: 1000
 dovecot_default_client_limit: 10000
