@@ -19,6 +19,9 @@ dovecot_default_vsz_limit: 1G
 dovecot_default_process_limit: 1000
 dovecot_default_client_limit: 10000
 
+# Set process limit for imap service
+dovecot_process_limit_service_imap: 1024
+
 dovecot_mail_location: maildir:{{ dovecot_vmail_path }}/%Ld/%Ln/Maildir
 
 dovecot_mail_uid: 5000
