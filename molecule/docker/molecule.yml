@@ -1,10 +1,4 @@
 ---
-scenario:
-  name: docker
-
-dependency:
-  name: galaxy
-
 driver:
   name: docker
 
@@ -17,13 +11,15 @@ platforms:
     privileged: true
     pre_build_image: true
 
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+
 provisioner:
   name: ansible
-  lint:
-    name: ansible-lint
-    enabled: false
   playbooks:
-    converge: ../default/playbook.yml
+    converge: ../default/converge.yml
     verify: ../default/verify.yml
   inventory:
     host_vars:

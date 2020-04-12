@@ -66,14 +66,16 @@
 
 - name: create self-signed ssl cert
   block:
-    - template:
+    - name: adjust ssl config
+      template:
         src: dovecot-openssl.cnf.j2
         dest: /etc/dovecot/dovecot-openssl.cnf
         owner: root
         group: root
         mode: 0644
 
-    - command: /usr/share/dovecot/mkcert.sh
+    - name: create cert
+      command: /usr/share/dovecot/mkcert.sh
       args:
         creates: /etc/dovecot/dovecot.pem
         chdir: /etc/dovecot
@@ -83,6 +85,8 @@
   command: "openssl dhparam -out /etc/dovecot/dh.pem 4096"
   args:
     creates: /etc/dovecot/dh.pem
+  tags:
+    - molecule-notest
 
 - name: configure dovecot
   template:
