@@ -79,6 +79,11 @@
         chdir: /etc/dovecot
   when: not dovecot_ssl_cert is defined and ansible_distribution_release != "buster"
 
+- name: create DH param
+  command: "openssl dhparam -out /etc/dovecot/dh.pem 4096"
+  args:
+    creates: /etc/dovecot/dh.pem
+
 - name: configure dovecot
   template:
     src: "{{ item }}.j2"
