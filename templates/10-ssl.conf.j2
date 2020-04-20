@@ -43,7 +43,7 @@ ssl_client_ca_dir = /etc/ssl/certs
 # auth_ssl_username_from_cert=yes.
 #ssl_cert_username_field = commonName
 
-{% if ansible_distribution_release|int > 9 %}
+{% if ansible_distribution_major_version|int > 9 %}
 # SSL DH parameters
 # Generate new params with `openssl dhparam -out /etc/dovecot/dh.pem 4096`
 # Or migrate from old ssl-parameters.dat file with the command dovecot
