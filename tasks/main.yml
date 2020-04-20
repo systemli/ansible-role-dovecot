@@ -102,6 +102,7 @@
     - 10-ssl.conf
     - 20-imap.conf
     - 90-quota.conf
+    - 90-stats.conf
   notify: restart dovecot
 
 - name: configure mail_crypt

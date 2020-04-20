@@ -1,0 +1,15 @@
+# get rid of postfix/pipe "Error: net_connect_unix(/var/run/dovecot/stats-writer) fa))"
+
+service stats {
+    unix_listener stats-reader {
+        user = vmail
+        group = vmail
+        mode = 0660
+    }
+
+unix_listener stats-writer {
+        user = vmail
+        group = vmail
+        mode = 0660
+    }
+}
