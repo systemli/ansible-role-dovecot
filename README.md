@@ -1,7 +1,7 @@
 ansible-role-dovecot
 ====================
 
-[![Build Status](https://github.com/systemli/ansible-role-dovecot/workflows/Molecule/badge.svg?branch=master)](https://github.com/systemli/ansible-role-dovecot/actions?query=workflow%3AMolecule)
+[![Build Status](https://github.com/systemli/ansible-role-dovecot/workflows/Molecule/badge.svg?branch=master)](https://github.com/systemli/ansible-role-dovecot/actions?query=workflow%3AIntegration)
 [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-dovecot-blue.svg)](https://galaxy.ansible.com/systemli/dovecot)
 
 Install and maintain Dovecot with Ansible. Optionally, integrate with [Userli](https://github.com/systemli/userli).
