@@ -118,7 +118,7 @@
 - name: Set dovecot user limit in sysctl
   sysctl:
     name: "fs.inotify.max_user_instances"
-    value: "1024"
+    value: "{{ dovecot_max_user_inst | d(1024) }}"
     state: present
     sysctl_file: /etc/sysctl.d/90-ansible-fs.conf
     sysctl_set: true
