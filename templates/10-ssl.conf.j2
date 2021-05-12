@@ -51,9 +51,11 @@ ssl_client_ca_dir = /etc/ssl/certs
 ssl_dh = <{{ '/usr/share/dovecot/dh.pem' if __testing|d() else '/etc/dovecot/dh.pem' }}
 {% endif %}
 
+{% if ansible_distribution_major_version|int > 9 %}
 # Minimum SSL protocol version to use. Potentially recognized values are SSLv3,
 # TLSv1, TLSv1.1, and TLSv1.2, depending on the OpenSSL version used.
-#ssl_min_protocol = TLSv1
+ssl_min_protocol = {{ dovecot_ssl_min_protocol | default('TLSv1.2') }}
+{% endif %}
 
 # SSL ciphers to use, the default is:
 #ssl_cipher_list = ALL:!kRSA:!SRP:!kDHd:!DSS:!aNULL:!eNULL:!EXPORT:!DES:!3DES:!MD5:!PSK:!RC4:!ADH:!LOW@STRENGTH
