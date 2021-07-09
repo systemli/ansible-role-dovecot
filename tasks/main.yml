@@ -3,6 +3,7 @@
 - name: Install role dependencies
   apt:
     pkg: "{{ dovecot_dependencies }}"
+    cache_valid_time: 600
 
 - name: ensure mail user is present
   user:
