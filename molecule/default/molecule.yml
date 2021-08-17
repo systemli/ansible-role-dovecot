@@ -5,10 +5,10 @@ driver:
     name: virtualbox
 
 platforms:
+  - name: dovecot-bullseye64
+    box: debian/bullseye64
   - name: dovecot-buster64
     box: debian/buster64
-  - name: dovecot-stretch64
-    box: debian/stretch64
 
 lint: |
   set -e

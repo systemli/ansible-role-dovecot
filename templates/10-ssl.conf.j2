@@ -9,8 +9,8 @@ ssl = required
 # dropping root privileges, so keep the key file unreadable by anyone but
 # root. Included doc/mkcert.sh can be used to easily generate self-signed
 # certificate, just make sure to update the domains in dovecot-openssl.cnf
-ssl_cert = <{{ dovecot_ssl_cert | default('/etc/dovecot/dovecot.pem') }}
-ssl_key = <{{ dovecot_ssl_key | default('/etc/dovecot/private/dovecot.pem') }}
+ssl_cert = <{{ dovecot_ssl_cert | default('/etc/dovecot/ssl/dovecot.pem') }}
+ssl_key = <{{ dovecot_ssl_key | default('/etc/dovecot/ssl/dovecot.key') }}
 
 # If key file is password protected, give the password here. Alternatively
 # give it when starting dovecot with -p parameter. Since this file is often
@@ -43,19 +43,15 @@ ssl_client_ca_dir = /etc/ssl/certs
 # auth_ssl_username_from_cert=yes.
 #ssl_cert_username_field = commonName
 
-{% if ansible_distribution_major_version|int > 9 %}
 # SSL DH parameters
 # Generate new params with `openssl dhparam -out /etc/dovecot/dh.pem 4096`
 # Or migrate from old ssl-parameters.dat file with the command dovecot
 # gives on startup when ssl_dh is unset.
 ssl_dh = <{{ '/usr/share/dovecot/dh.pem' if __testing|d() else '/etc/dovecot/dh.pem' }}
-{% endif %}
 
-{% if ansible_distribution_major_version|int > 9 %}
 # Minimum SSL protocol version to use. Potentially recognized values are SSLv3,
 # TLSv1, TLSv1.1, and TLSv1.2, depending on the OpenSSL version used.
 ssl_min_protocol = {{ dovecot_ssl_min_protocol | default('TLSv1.2') }}
-{% endif %}
 
 # SSL ciphers to use, the default is:
 #ssl_cipher_list = ALL:!kRSA:!SRP:!kDHd:!DSS:!aNULL:!eNULL:!EXPORT:!DES:!3DES:!MD5:!PSK:!RC4:!ADH:!LOW@STRENGTH
