@@ -5,12 +5,12 @@ ansible-role-dovecot
 [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-dovecot-blue.svg)](https://galaxy.ansible.com/systemli/dovecot)
 
 Install and maintain Dovecot with Ansible. Optionally, integrate with [Userli](https://github.com/systemli/userli).
-Contains tests for Travis CI, Molecule and Vagrant.
+Tested with Github Action, Molecule, and Docker or Vagrant.
 
 Requirements
 ------------
 
-Debian 10. Other versions of Debian/Ubuntu might be supported as well, but aren't tested.
+Debian 11, 10, or 9. Other versions of Debian/Ubuntu might be supported as well, but aren't tested.
 
 
 Testing & Development
@@ -26,9 +26,6 @@ Run local tests with:
 ```
 molecule test 
 ```
-
-Requires Molecule, Vagrant and `python-vagrant` to be installed.For developing and testing the role we use Travis CI, Molecule and Vagrant. On the local environment you can easily test the role with
-
 
 License
 -------
