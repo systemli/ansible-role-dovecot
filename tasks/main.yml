@@ -80,7 +80,7 @@
       args:
         creates: /etc/dovecot/dovecot.pem
         chdir: /etc/dovecot
-  when: not dovecot_ssl_cert is defined and ansible_distribution_release != "buster"
+  when: not dovecot_ssl_cert is defined and ansible_distribution_major_version|int < 10
 
 - name: create DH param
   command: "openssl dhparam -out /etc/dovecot/dh.pem 4096"
