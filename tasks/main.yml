@@ -94,6 +94,7 @@
   command: "openssl dhparam -out /etc/dovecot/dh.pem 4096"
   args:
     creates: /etc/dovecot/dh.pem
+  when: not __testing|d()
   tags:
     - molecule-notest
 
