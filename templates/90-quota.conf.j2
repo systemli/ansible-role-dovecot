@@ -16,7 +16,8 @@
 
 plugin {
   quota_rule = *:storage={{ dovecot_quota_storage }}
-  quota_rule2 = Trash:storage=+10%%
+  quota_rule2 = Trash:ignore
+  quota_rule3 = SPAM:ignore
 
   # LDA/LMTP allows saving the last mail to bring user from under quota to
   # over quota, if the quota doesn't grow too high. Default is to allow as
