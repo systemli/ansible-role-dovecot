@@ -15,6 +15,26 @@ jobs:
     name: Integration
     uses: systemli/github-ansible-workflow/.github/workflows/ansible-integration-workflow.yaml@main
     with:
+      molecule-config: |
+        ---
+        driver:
+          name: docker
+        platforms:
+          - name: instance
+            image: "geerlingguy/docker-${MOLECULE_DISTRO:-debian10}-ansible:latest"
+            command: ${MOLECULE_DOCKER_COMMAND:-""}
+            volumes:
+              - /sys/fs/cgroup:/sys/fs/cgroup:ro
+            privileged: true
+            pre_build_image: true
+        provisioner:
+          name: ansible
+          playbooks:
+            converge: ../default/converge.yml
+          inventory:
+            host_vars:
+              instance:
+                dovecot_userli_user: dovecot
       distros: '[ "debian11", "debian10" ]'
     secrets:
       galaxy-token: ${{ secrets.galaxy_api_key }}
