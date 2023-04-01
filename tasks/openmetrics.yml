@@ -1,0 +1,8 @@
+---
+- name: Copy openmetrics configuration
+  ansible.builtin.template:
+    src: 90-openmetrics.conf.j2
+    dest: /etc/dovecot/conf.d/90-openmetrics.conf
+    owner: root
+    group: root
+  notify: reload dovecot
