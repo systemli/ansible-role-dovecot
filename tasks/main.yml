@@ -132,21 +132,25 @@
     sysctl_file: /etc/sysctl.d/90-ansible-fs.conf
     sysctl_set: true
 
-- import_tasks: openmetrics.yml
+- name: Import openmetrics tasks
+  import_tasks: openmetrics.yml
   when: dovecot_openmetrics_enabled
   tags: openmetrics
 
-- import_tasks: munin.yml
+- name: Import munin tasks
+  import_tasks: munin.yml
   when: dovecot_munin
   tags: munin
 
-- import_tasks: dovecot_backup_lead.yml
+- name: Import backup leader tasks
+  import_tasks: dovecot_backup_lead.yml
   when: dovecot_backup_lead
   tags:
     - dovecot_backup
     - dovecot_backup_lead
 
-- import_tasks: dovecot_backup_follower.yml
+- name: Import backup follower tasks
+  import_tasks: dovecot_backup_follower.yml
   when: dovecot_backup_follower
   tags:
     - dovecot_backup
