@@ -1,5 +1,4 @@
 ---
-
 dovecot_auth_mechanisms:
   - checkpassword
 
@@ -46,6 +45,9 @@ dovecot_userli_path: /vagrant
 dovecot_userli_user: vagrant
 
 dovecot_vmail_path: /var/vmail
+
+dovecot_openmetrics_enabled: false
+dovecot_openmetrics_port: 9900
 
 # enable dovecot munin plugins
 dovecot_munin: false

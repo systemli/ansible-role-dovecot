@@ -1,5 +1,4 @@
 ---
-
 - name: Install role dependencies
   apt:
     pkg: "{{ dovecot_dependencies }}"
@@ -132,6 +131,10 @@
     state: present
     sysctl_file: /etc/sysctl.d/90-ansible-fs.conf
     sysctl_set: true
+
+- import_tasks: openmetrics.yml
+  when: dovecot_openmetrics_enabled
+  tags: openmetrics
 
 - import_tasks: munin.yml
   when: dovecot_munin
