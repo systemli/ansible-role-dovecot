@@ -5,4 +5,5 @@
     dest: /etc/dovecot/conf.d/90-openmetrics.conf
     owner: root
     group: root
-  notify: reload dovecot
+    mode: 0644
+  notify: Reload dovecot

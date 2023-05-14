@@ -1,6 +1,6 @@
 ---
 
-- name: ensure ssh private key for dovecot backups are present
+- name: Ensure ssh private key for dovecot backups are present
   copy:
     content: "{{ item.key }}"
     dest: /root/.ssh/{{ item.name }}
@@ -11,7 +11,7 @@
     - {name: dovecot_backup_ed25519, key: "{{ dovecot_backup_ed25519 }}"}
     - {name: dovecot_backup_ed25519.pub, key: "{{ dovecot_backup_ed25519_pub }}"}
 
-- name: ensure backup script is present
+- name: Ensure backup script is present
   template:
     src: "{{ item }}"
     dest: "{{ dovecot_backup_script_path }}"
@@ -21,7 +21,7 @@
   with_items:
     - dovecot/backup_script.sh.j2
 
-- name: ensure backup cronjob is present
+- name: Ensure backup cronjob is present
   cron:
     name: "Enabled mail backup"
     minute: "0"

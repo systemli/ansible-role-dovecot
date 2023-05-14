@@ -1,48 +1,39 @@
 ---
-- name: restart munin-node
+- name: Restart munin-node
   service:
     name: munin-node
     state: restarted
 
-- name: postfix aliases
-  command: /usr/sbin/postalias /etc/aliases
-
-- name: restart opendkim
+- name: Restart opendkim
   service:
     name: opendkim
     state: restarted
 
-- name: restart dovecot
+- name: Restart dovecot
   service:
     name: dovecot
     state: restarted
 
-- name: reload dovecot
+- name: Reload dovecot
   service:
     name: dovecot
     state: reloaded
 
-- name: restart rbldnsd
+- name: Restart rbldnsd
   service:
     name: rbldnsd
     state: restarted
 
-- name: rehash transport
+- name: Rehash transport  # noqa no-changed-when
   command: /usr/sbin/postmap /etc/postfix/transport
 
-- name: rehash tor transport map
+- name: Rehash tor transport map  # noqa no-changed-when
   command: /usr/sbin/postmap /etc/postfix/tor_transport
 
-- name: rehash dnsbl reply map
+- name: Rehash dnsbl reply map  # noqa no-changed-when
   command: /usr/sbin/postmap /etc/postfix/dnsbl-reply-map
 
-- name: reload systemd
+- name: Reload systemd
   systemd:
     daemon_reload: true
   become: true
-
-- name: compile before sieves
-  become: true
-  command: /usr/bin/sievec /etc/dovecot/sieve-before/
-  notify:
-    - restart dovecot

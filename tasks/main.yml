@@ -4,7 +4,7 @@
     pkg: "{{ dovecot_dependencies }}"
     cache_valid_time: 600
 
-- name: ensure mail user is present
+- name: Ensure mail user is present
   user:
     name: vmail
     home: "{{ dovecot_vmail_path }}"
@@ -13,7 +13,7 @@
     uid: "{{ dovecot_mail_uid }}"
   when: not dovecot_backup_follower
 
-- name: ensure mail user is present
+- name: Ensure mail user is present
   user:
     name: vmail
     home: "{{ dovecot_vmail_path }}"
@@ -22,7 +22,7 @@
     uid: "{{ dovecot_mail_uid }}"
   when: dovecot_backup_follower
 
-- name: ensure mail home is present
+- name: Ensure mail home is present
   file:
     path: "{{ dovecot_vmail_path }}"
     state: directory
@@ -30,43 +30,44 @@
     group: vmail
     mode: "u+rw,g+rw,o-rwx"
 
-- name: ensure dovecot is installed
+- name: Ensure dovecot is installed
   apt:
     pkg: "{{ dovecot_apt_packages }}"
     state: present
 
-- name: ensure dovecot is in group of userli
+- name: Ensure dovecot is in group of userli
   user:
     name: dovecot
     append: true
     groups: "{{ dovecot_userli_user }}"
 
-- name: set instance_name
+- name: Set instance_name
   lineinfile:
     path: /etc/dovecot/dovecot.conf
     line: "instance_name = {{ ansible_fqdn }}"
     regexp: "instance_name ="
-  notify: restart dovecot
+  notify: Restart dovecot
 
-- name: set login greeting
+- name: Set login greeting
   lineinfile:
     path: /etc/dovecot/dovecot.conf
     line: "login_greeting = {{ ansible_fqdn }} ready."
     regexp: "login_greeting ="
-  notify: restart dovecot
+  notify: Restart dovecot
 
-- name: copy checkpassword auth config
+- name: Copy checkpassword auth config
   template:
     src: auth-checkpassword.conf.ext.j2
     dest: /etc/dovecot/conf.d/auth-checkpassword.conf.ext
     owner: root
     group: root
     mode: 0644
-  notify: restart dovecot
+  notify: Restart dovecot
 
-- name: create self-signed ssl cert
+- name: Create self-signed ssl cert
+  when: dovecot_ssl_key is not defined
   block:
-    - name: adjust ssl config
+    - name: Adjust ssl config
       template:
         src: dovecot-openssl.cnf.j2
         dest: /etc/dovecot/dovecot-openssl.cnf
@@ -74,7 +75,7 @@
         group: root
         mode: 0644
 
-    - name: ensure ssl folder is present
+    - name: Ensure ssl folder is present
       file:
         path: /etc/dovecot/ssl
         state: directory
@@ -82,14 +83,13 @@
         group: dovecot
         mode: 0640
 
-    - name: create cert
+    - name: Create cert
       command: /usr/share/dovecot/mkcert.sh
       args:
         creates: /etc/dovecot/ssl/dovecot.pem
         chdir: /etc/dovecot
-  when: dovecot_ssl_key is not defined
 
-- name: create DH param
+- name: Create DH param
   command: "openssl dhparam -out /etc/dovecot/dh.pem 4096"
   args:
     creates: /etc/dovecot/dh.pem
@@ -97,7 +97,7 @@
   tags:
     - molecule-notest
 
-- name: configure dovecot
+- name: Configure dovecot
   template:
     src: "{{ item }}.j2"
     dest: /etc/dovecot/conf.d/{{ item }}
@@ -112,20 +112,20 @@
     - 20-imap.conf
     - 90-quota.conf
     - 90-stats.conf
-  notify: restart dovecot
+  notify: Restart dovecot
 
-- name: configure mail_crypt
+- name: Configure mail_crypt
   copy:
     src: 90-mail-crypt.conf
     dest: /etc/dovecot/conf.d/
     owner: root
     group: root
     mode: 0644
-  notify: restart dovecot
+  notify: Restart dovecot
   when: '"mail_crypt" in dovecot_mail_plugins'
 
 - name: Set dovecot user limit in sysctl
-  sysctl:
+  ansible.posix.sysctl:
     name: "fs.inotify.max_user_instances"
     value: "{{ dovecot_max_user_inst | default(1024) }}"
     state: present
