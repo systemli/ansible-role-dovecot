@@ -1,23 +1,23 @@
 ---
 
-- name: ensure ssh directory is present
-  file:
+- name: Ensure ssh directory is present
+  ansible.builtin.file:
     path: "/var/vmail/.ssh"
     state: directory
     owner: vmail
     group: vmail
     mode: 0700
 
-- name: ensure ssh directory is present
-  file:
+- name: Ensure ssh directory is present
+  ansible.builtin.file:
     path: "/var/vmail/.ssh"
     state: directory
     owner: vmail
     group: vmail
     mode: 0700
 
-- name: ensure dovecot_backup ssh keys is allowed
-  authorized_key:
+- name: Ensure dovecot_backup ssh keys is allowed
+  ansible.posix.authorized_key:
     user: vmail
     key: "{{ dovecot_backup_ed25519_pub }}"
     exclusive: true
