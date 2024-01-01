@@ -65,6 +65,7 @@ namespace inbox {
   # For \Sent mailboxes there are two widely used names. We'll mark both of
   # them as \Sent. User typically deletes one of them if duplicates are created.
   mailbox Sent {
+    auto = subscribe
     special_use = \Sent
   }
   mailbox "Sent Messages" {
