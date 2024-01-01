@@ -35,6 +35,9 @@
     pkg: "{{ dovecot_apt_packages }}"
     state: present
 
+- name: Import systemd limits tasks
+  import_tasks: systemd-limits.yml
+
 - name: Ensure dovecot is in group of userli
   user:
     name: dovecot
