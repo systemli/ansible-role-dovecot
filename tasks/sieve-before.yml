@@ -1,0 +1,19 @@
+---
+
+- name: Ensure sieve-before dir is present
+  file:
+    path: /etc/dovecot/sieve-before
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: Copy sieve-before script
+  copy:
+    src: sieve-before/spam-to-junk.sieve
+    dest: /etc/dovecot/sieve-before/spam-to-junk.sieve
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Compile sieve-before scripts

@@ -1,0 +1,20 @@
+---
+
+- name: Ensure systemd dovecot include directory is present
+  file:
+    path: /etc/systemd/system/dovecot.service.d/
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: Copy systemd limits file for dovecot service
+  copy:
+    src: systemd/system/dovecot.service.d/limits.conf
+    dest: /etc/systemd/system/dovecot.service.d/limits.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Reload systemd
+    - Restart dovecot

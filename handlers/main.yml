@@ -32,3 +32,8 @@
   systemd:
     daemon_reload: true
   become: true
+
+- name: Compile sieve-before scripts # noqa no-changed-when
+  command: /usr/bin/sievec /etc/dovecot/sieve-before
+  notify:
+    - Restart dovecot
