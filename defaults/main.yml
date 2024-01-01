@@ -35,7 +35,7 @@ dovecot_mail_plugins_imap: $mail_plugins imap_quota
 dovecot_lda_mailbox_autosubscribe: "yes"
 dovecot_lda_mail_plugins_extra: sieve
 dovecot_junk_trash_autoexpunge: 30d
-dovecot_sieve_location: /var/vmail/%d/%n/.dovecot.sieve
+dovecot_sieve_location: "file:/var/vmail/%d/%n/sieve;active:/var/vmail/%d/%n/.dovecot.sieve"
 dovecot_sieve_before: /etc/dovecot/sieve-before/spam-to-junk.sieve
 dovecot_sieve_max_redirects: 20
 
