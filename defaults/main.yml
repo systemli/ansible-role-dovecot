@@ -32,6 +32,10 @@ dovecot_mail_plugins:
   - quota
 dovecot_mail_plugins_imap: $mail_plugins imap_quota
 
+dovecot_lda_mailbox_autosubscribe: "yes"
+dovecot_lda_mail_plugins_extra: sieve
+dovecot_junk_trash_autoexpunge: 30d
+
 # See https://wiki.dovecot.org/LoginProcess for performance tuning
 dovecot_login_service_count: 1
 dovecot_login_process_min_avail: "{{ ansible_processor_cores * ansible_processor_count }}"
