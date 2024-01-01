@@ -49,9 +49,6 @@ dovecot_vmail_path: /var/vmail
 dovecot_openmetrics_enabled: false
 dovecot_openmetrics_port: 9900
 
-# enable dovecot munin plugins
-dovecot_munin: false
-
 # enable dovecot backup
 dovecot_backup_lead: false
 dovecot_backup_follower: false

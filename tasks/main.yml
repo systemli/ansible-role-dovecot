@@ -137,11 +137,6 @@
   when: dovecot_openmetrics_enabled
   tags: openmetrics
 
-- name: Import munin tasks
-  import_tasks: munin.yml
-  when: dovecot_munin
-  tags: munin
-
 - name: Import backup leader tasks
   import_tasks: dovecot_backup_lead.yml
   when: dovecot_backup_lead

@@ -1,9 +1,4 @@
 ---
-- name: Restart munin-node
-  service:
-    name: munin-node
-    state: restarted
-
 - name: Restart opendkim
   service:
     name: opendkim
