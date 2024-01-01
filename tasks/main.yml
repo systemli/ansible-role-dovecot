@@ -100,6 +100,9 @@
   tags:
     - molecule-notest
 
+- name: Import sieve-before tasks
+  import_tasks: sieve-before.yml
+
 - name: Configure dovecot
   template:
     src: "{{ item }}.j2"
@@ -115,7 +118,9 @@
     - 15-lda.conf
     - 15-mailboxes.conf
     - 20-imap.conf
+    - 20-managesieve.conf
     - 90-quota.conf
+    - 90-sieve.conf
     - 90-stats.conf
   notify: Restart dovecot
 
