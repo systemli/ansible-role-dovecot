@@ -169,7 +169,7 @@ plugin {
   #
   # This setting is ignored when the envelope sender is "<>". In that case the
   # sender of the redirected message is also always "<>".
-  #sieve_redirect_envelope_from = sender
+  sieve_redirect_envelope_from = {{ dovecot_sieve_redirect_envelope_from }}
 
   ## TRACE DEBUGGING
   # Trace debugging provides detailed insight in the operations performed by

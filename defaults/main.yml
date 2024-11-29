@@ -38,6 +38,7 @@ dovecot_junk_trash_autoexpunge: 30d
 dovecot_sieve_location: "file:/var/vmail/%d/%n/sieve;active=/var/vmail/%d/%n/.dovecot.sieve"
 dovecot_sieve_before: /etc/dovecot/sieve-before/spam-to-junk.sieve
 dovecot_sieve_max_redirects: 20
+dovecot_sieve_redirect_envelope_from: orig_recipient
 
 # See https://wiki.dovecot.org/LoginProcess for performance tuning
 dovecot_login_service_count: 1
