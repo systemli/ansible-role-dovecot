@@ -35,8 +35,8 @@
     pkg: "{{ dovecot_apt_packages }}"
     state: present
 
-- name: Import systemd limits tasks
-  import_tasks: systemd-limits.yml
+- name: Import systemd tasks
+  import_tasks: systemd.yml
 
 - name: Ensure dovecot is in group of userli
   user:
@@ -56,15 +56,6 @@
     path: /etc/dovecot/dovecot.conf
     line: "login_greeting = {{ ansible_fqdn }} ready."
     regexp: "login_greeting ="
-  notify: Restart dovecot
-
-- name: Copy checkpassword auth config
-  template:
-    src: auth-checkpassword.conf.ext.j2
-    dest: /etc/dovecot/conf.d/auth-checkpassword.conf.ext
-    owner: root
-    group: root
-    mode: 0644
   notify: Restart dovecot
 
 - name: Create self-signed ssl cert
