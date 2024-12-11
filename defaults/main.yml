@@ -49,9 +49,6 @@ dovecot_postfix_auth: false
 dovecot_quota_options: ":ignoreunlimited:noenforcing"
 dovecot_quota_storage: 1G
 
-dovecot_userli_path: /vagrant
-dovecot_userli_user: vagrant
-
 dovecot_vmail_path: /var/vmail
 
 dovecot_openmetrics_enabled: false
@@ -63,3 +60,8 @@ dovecot_backup_follower: false
 
 # backup script
 dovecot_backup_script_path: "/root/sync_mailboxes_to_remote.sh"
+
+# dovecot systemd environment
+dovecot_systemd_environment: |
+  # Set to '1' to allow Dovecot daemons to produce core dumps
+  #ALLOW_COREDUMPS=1
