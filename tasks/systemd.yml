@@ -1,6 +1,6 @@
 ---
 - name: Create systemd drop in directory
-  file:
+  ansible.builtin.file:
     path: /etc/systemd/system/dovecot.service.d/
     owner: root
     group: root
@@ -8,7 +8,7 @@
     state: directory
 
 - name: Copy systemd limits drop in
-  copy:
+  ansible.builtin.copy:
     src: systemd/system/dovecot.service.d/limits.conf
     dest: /etc/systemd/system/dovecot.service.d/limits.conf
     owner: root
@@ -19,7 +19,7 @@
     - Restart dovecot
 
 - name: Copy environment file
-  copy:
+  ansible.builtin.copy:
     content: "{{ dovecot_systemd_environment }}"
     dest: /etc/default/dovecot
     owner: root
@@ -30,7 +30,7 @@
     - Restart dovecot
 
 - name: Copy systemd environment drop in
-  copy:
+  ansible.builtin.copy:
     src: systemd/system/dovecot.service.d/environment.conf
     dest: /etc/systemd/system/dovecot.service.d/environment.conf
     owner: root

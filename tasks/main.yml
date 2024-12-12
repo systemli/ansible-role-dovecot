@@ -1,11 +1,11 @@
 ---
 - name: Install role dependencies
-  apt:
+  ansible.builtin.apt:
     pkg: "{{ dovecot_dependencies }}"
     cache_valid_time: 600
 
 - name: Ensure mail user is present
-  user:
+  ansible.builtin.user:
     name: vmail
     home: "{{ dovecot_vmail_path }}"
     shell: /bin/false
@@ -14,7 +14,7 @@
   when: not dovecot_backup_follower
 
 - name: Ensure mail user is present
-  user:
+  ansible.builtin.user:
     name: vmail
     home: "{{ dovecot_vmail_path }}"
     shell: /bin/bash
@@ -23,7 +23,7 @@
   when: dovecot_backup_follower
 
 - name: Ensure mail home is present
-  file:
+  ansible.builtin.file:
     path: "{{ dovecot_vmail_path }}"
     state: directory
     owner: vmail
@@ -31,28 +31,28 @@
     mode: "u+rw,g+rw,o-rwx"
 
 - name: Ensure dovecot is installed
-  apt:
+  ansible.builtin.apt:
     pkg: "{{ dovecot_apt_packages }}"
     state: present
 
 - name: Import systemd tasks
-  import_tasks: systemd.yml
+  ansible.builtin.import_tasks: systemd.yml
 
 - name: Ensure dovecot is in group of userli
-  user:
+  ansible.builtin.user:
     name: dovecot
     append: true
     groups: "{{ dovecot_userli_user }}"
 
 - name: Set instance_name
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/dovecot/dovecot.conf
     line: "instance_name = {{ ansible_fqdn }}"
     regexp: "instance_name ="
   notify: Restart dovecot
 
 - name: Set login greeting
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/dovecot/dovecot.conf
     line: "login_greeting = {{ ansible_fqdn }} ready."
     regexp: "login_greeting ="
@@ -62,7 +62,7 @@
   when: dovecot_ssl_key is not defined
   block:
     - name: Adjust ssl config
-      template:
+      ansible.builtin.template:
         src: dovecot-openssl.cnf.j2
         dest: /etc/dovecot/dovecot-openssl.cnf
         owner: root
@@ -70,7 +70,7 @@
         mode: 0644
 
     - name: Ensure ssl folder is present
-      file:
+      ansible.builtin.file:
         path: /etc/dovecot/ssl
         state: directory
         owner: root
@@ -78,13 +78,13 @@
         mode: 0640
 
     - name: Create cert
-      command: /usr/share/dovecot/mkcert.sh
+      ansible.builtin.command: /usr/share/dovecot/mkcert.sh
       args:
         creates: /etc/dovecot/ssl/dovecot.pem
         chdir: /etc/dovecot
 
 - name: Create DH param
-  command: "openssl dhparam -out /etc/dovecot/dh.pem 4096"
+  ansible.builtin.command: "openssl dhparam -out /etc/dovecot/dh.pem 4096"
   args:
     creates: /etc/dovecot/dh.pem
   when: not __testing|d()
@@ -92,10 +92,10 @@
     - molecule-notest
 
 - name: Import sieve-before tasks
-  import_tasks: sieve-before.yml
+  ansible.builtin.import_tasks: sieve-before.yml
 
 - name: Configure dovecot
-  template:
+  ansible.builtin.template:
     src: "{{ item }}.j2"
     dest: /etc/dovecot/conf.d/{{ item }}
     owner: root
@@ -116,7 +116,7 @@
   notify: Restart dovecot
 
 - name: Configure mail_crypt
-  copy:
+  ansible.builtin.copy:
     src: 90-mail-crypt.conf
     dest: /etc/dovecot/conf.d/
     owner: root
@@ -134,19 +134,19 @@
     sysctl_set: true
 
 - name: Import openmetrics tasks
-  import_tasks: openmetrics.yml
+  ansible.builtin.import_tasks: openmetrics.yml
   when: dovecot_openmetrics_enabled
   tags: openmetrics
 
 - name: Import backup leader tasks
-  import_tasks: dovecot_backup_lead.yml
+  ansible.builtin.import_tasks: dovecot_backup_lead.yml
   when: dovecot_backup_lead
   tags:
     - dovecot_backup
     - dovecot_backup_lead
 
 - name: Import backup follower tasks
-  import_tasks: dovecot_backup_follower.yml
+  ansible.builtin.import_tasks: dovecot_backup_follower.yml
   when: dovecot_backup_follower
   tags:
     - dovecot_backup
