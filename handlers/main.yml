@@ -1,39 +1,38 @@
 ---
 - name: Restart opendkim
-  service:
+  ansible.builtin.service:
     name: opendkim
     state: restarted
 
 - name: Restart dovecot
-  service:
+  ansible.builtin.service:
     name: dovecot
     state: restarted
 
 - name: Reload dovecot
-  service:
+  ansible.builtin.service:
     name: dovecot
     state: reloaded
 
 - name: Restart rbldnsd
-  service:
+  ansible.builtin.service:
     name: rbldnsd
     state: restarted
 
-- name: Rehash transport  # noqa no-changed-when
-  command: /usr/sbin/postmap /etc/postfix/transport
+- name: Rehash transport # noqa no-changed-when
+  ansible.builtin.command: /usr/sbin/postmap /etc/postfix/transport
 
-- name: Rehash tor transport map  # noqa no-changed-when
-  command: /usr/sbin/postmap /etc/postfix/tor_transport
+- name: Rehash tor transport map # noqa no-changed-when
+  ansible.builtin.command: /usr/sbin/postmap /etc/postfix/tor_transport
 
-- name: Rehash dnsbl reply map  # noqa no-changed-when
-  command: /usr/sbin/postmap /etc/postfix/dnsbl-reply-map
+- name: Rehash dnsbl reply map # noqa no-changed-when
+  ansible.builtin.command: /usr/sbin/postmap /etc/postfix/dnsbl-reply-map
 
 - name: Reload systemd
-  systemd:
+  ansible.builtin.systemd:
     daemon_reload: true
-  become: true
 
 - name: Compile sieve-before scripts # noqa no-changed-when
-  command: /usr/bin/sievec /etc/dovecot/sieve-before
+  ansible.builtin.command: /usr/bin/sievec /etc/dovecot/sieve-before
   notify:
     - Restart dovecot

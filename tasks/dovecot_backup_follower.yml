@@ -1,5 +1,4 @@
 ---
-
 - name: Ensure ssh directory is present
   ansible.builtin.file:
     path: "/var/vmail/.ssh"

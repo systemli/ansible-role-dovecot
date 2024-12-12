@@ -1,7 +1,6 @@
 ---
-
 - name: Ensure sieve-before dir is present
-  file:
+  ansible.builtin.file:
     path: /etc/dovecot/sieve-before
     owner: root
     group: root
@@ -9,7 +8,7 @@
     state: directory
 
 - name: Copy sieve-before script
-  copy:
+  ansible.builtin.copy:
     src: sieve-before/spam-to-junk.sieve
     dest: /etc/dovecot/sieve-before/spam-to-junk.sieve
     owner: root
