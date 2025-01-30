@@ -282,15 +282,15 @@ protocol !indexer-worker {
 # This is done by stat()ing each entry, so it causes more disk I/O.
 # (For systems setting struct dirent->d_type, this check is free and it's
 # done always regardless of this setting)
-#maildir_stat_dirs = no
+maildir_stat_dirs = no
 
 # When copying a message, do it with hard links whenever possible. This makes
 # the performance much better, and it's unlikely to have any side effects.
-#maildir_copy_with_hardlinks = yes
+maildir_copy_with_hardlinks = yes
 
 # Assume Dovecot is the only MUA accessing Maildir: Scan cur/ directory only
 # when its mtime changes unexpectedly or when we can't find the mail otherwise.
-#maildir_very_dirty_syncs = no
+maildir_very_dirty_syncs = no
 
 # If enabled, Dovecot doesn't use the S=<size> in the Maildir filenames for
 # getting the mail's physical size, except when recalculating Maildir++ quota.
