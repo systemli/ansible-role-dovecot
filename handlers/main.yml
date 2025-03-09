@@ -1,9 +1,4 @@
 ---
-- name: Restart opendkim
-  ansible.builtin.service:
-    name: opendkim
-    state: restarted
-
 - name: Restart dovecot
   ansible.builtin.service:
     name: dovecot
@@ -13,20 +8,6 @@
   ansible.builtin.service:
     name: dovecot
     state: reloaded
-
-- name: Restart rbldnsd
-  ansible.builtin.service:
-    name: rbldnsd
-    state: restarted
-
-- name: Rehash transport # noqa no-changed-when
-  ansible.builtin.command: /usr/sbin/postmap /etc/postfix/transport
-
-- name: Rehash tor transport map # noqa no-changed-when
-  ansible.builtin.command: /usr/sbin/postmap /etc/postfix/tor_transport
-
-- name: Rehash dnsbl reply map # noqa no-changed-when
-  ansible.builtin.command: /usr/sbin/postmap /etc/postfix/dnsbl-reply-map
 
 - name: Reload systemd
   ansible.builtin.systemd:
