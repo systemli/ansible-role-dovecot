@@ -40,6 +40,14 @@ dovecot_sieve_before: /etc/dovecot/sieve-before/spam-to-junk.sieve
 dovecot_sieve_max_redirects: 20
 dovecot_sieve_redirect_envelope_from: orig_recipient
 
+# Configure IMAP Sieve filter:
+#dovecot_mail_plugins_imap: $mail_plugins imap_quota imap_sieve
+#dovecot_sieve_plugins: sieve_imapsieve
+#dovecot_sieve_imapsieve:
+#  imapsieve_mailbox1_name: Junk
+#  imapsieve_mailbox1_causes: COPY
+#  imapsieve_mailbox1_before: file:/etc/dovecot/imap-sieve/report-spam.sieve
+
 # See https://wiki.dovecot.org/LoginProcess for performance tuning
 dovecot_login_service_count: 1
 dovecot_login_process_min_avail: "{{ ansible_processor_cores * ansible_processor_count }}"

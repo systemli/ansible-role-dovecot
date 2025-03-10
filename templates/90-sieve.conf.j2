@@ -112,7 +112,11 @@ plugin {
   # (wiki2.dovecot.org) or the pigeonhole website
   # (http://pigeonhole.dovecot.org) for available plugins.
   # The sieve_extprograms plugin is included in this release.
+{% if dovecot_sieve_plugins is defined %}
+  sieve_plugins = {{ dovecot_sieve_plugins }}
+{% else %}
   #sieve_plugins =
+{% endif %}
 
   # The maximum size of a Sieve script. The compiler will refuse to compile any
   # script larger than this limit. If set to 0, no limit on the script size is
@@ -204,4 +208,11 @@ plugin {
   # Enables showing byte code addresses in the trace output, rather than only
   # the source line numbers.
   #sieve_trace_addresses = no 
+{% if dovecot_sieve_imapsieve is defined %}
+
+  # IMAP Sieve configuration
+{% for key, value in dovecot_sieve_imapsieve.items() %}
+  {{ key }} = {{ value }}
+{% endfor %}
+{% endif %}
 }
