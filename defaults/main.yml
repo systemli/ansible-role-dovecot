@@ -34,7 +34,14 @@ dovecot_mail_plugins_imap: $mail_plugins imap_quota
 
 dovecot_lda_mailbox_autosubscribe: "yes"
 dovecot_lda_mail_plugins_extra: sieve
+
+# Mailbox settings
 dovecot_junk_trash_autoexpunge: 30d
+#dovecot_mailboxes_extra:
+#  - name: Second Spam Folder
+#    auto: subscribe
+#    autoexpunge: "{{ dovecot_junk_trash_autoexpunge }}"
+
 dovecot_sieve_location: "file:/var/vmail/%d/%n/sieve;active=/var/vmail/%d/%n/.dovecot.sieve"
 dovecot_sieve_dir: /etc/dovecot/sieve
 #dovecot_sieve_default_script: default.sieve
@@ -42,7 +49,7 @@ dovecot_sieve_dir: /etc/dovecot/sieve
 dovecot_sieve_max_redirects: 20
 dovecot_sieve_redirect_envelope_from: orig_recipient
 
-# Configure IMAP Sieve filter:
+# IMAP Sieve filter settings
 #dovecot_mail_plugins_imap: $mail_plugins imap_quota imap_sieve
 #dovecot_sieve_plugins: sieve_imapsieve
 #dovecot_sieve_imapsieve:
