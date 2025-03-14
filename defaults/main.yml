@@ -36,9 +36,21 @@ dovecot_lda_mailbox_autosubscribe: "yes"
 dovecot_lda_mail_plugins_extra: sieve
 dovecot_junk_trash_autoexpunge: 30d
 dovecot_sieve_location: "file:/var/vmail/%d/%n/sieve;active=/var/vmail/%d/%n/.dovecot.sieve"
-dovecot_sieve_before: /etc/dovecot/sieve-before/spam-to-junk.sieve
+dovecot_sieve_dir: /etc/dovecot/sieve
+dovecot_sieve_default_script: default.sieve
+dovecot_sieve_before_script: spam-to-junk.sieve
 dovecot_sieve_max_redirects: 20
 dovecot_sieve_redirect_envelope_from: orig_recipient
+
+# Configure IMAP Sieve filter:
+#dovecot_mail_plugins_imap: $mail_plugins imap_quota imap_sieve
+dovecot_sieve_plugins: sieve_imapsieve
+dovecot_sieve_imapsieve:
+  imapsieve_mailbox1_name: Junk
+  imapsieve_mailbox1_causes: COPY
+  imapsieve_mailbox1_before: file:/etc/dovecot/sieve/report-spam.sieve
+dovecot_sieve_imapsieve_script: report-spam.sieve
+dovecot_sieve_imapsieve_recipient: spam@localhost
 
 # See https://wiki.dovecot.org/LoginProcess for performance tuning
 dovecot_login_service_count: 1
