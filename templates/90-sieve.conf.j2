@@ -44,7 +44,11 @@ plugin {
   # sievec command line tool if the binary is not stored in a global location.
   # --> See sieve_before for executing scripts before the user's personal
   #     script.
+{% if dovecot_sieve_default_script is defined %}
+  sieve_default = {{ dovecot_sieve_dir }}/{{ dovecot_sieve_default_script }}
+{% else %}
   #sieve_default = /var/lib/dovecot/sieve/default.sieve
+{% endif %}
 
   # The name by which the default Sieve script (as configured by the 
   # sieve_default setting) is visible to the user through ManageSieve. 
@@ -73,8 +77,11 @@ plugin {
   # to the script execution sequence in the specified order. Reading the
   # numbered sieve_before settings stops at the first missing setting, so no
   # numbers may be skipped.
+{% if dovecot_sieve_before_script is defined %}
+  sieve_before = {{ dovecot_sieve_dir }}/{{ dovecot_sieve_before_script }}
+{% else %}
   #sieve_before = /var/lib/dovecot/sieve.d/
-  sieve_before = {{ dovecot_sieve_before }}
+{% endif %}
   #sieve_before2 = ldap:/etc/sieve-ldap.conf;name=ldap-domain
   #sieve_before3 = (etc...)
 

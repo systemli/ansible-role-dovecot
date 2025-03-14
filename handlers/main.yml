@@ -13,12 +13,7 @@
   ansible.builtin.systemd:
     daemon_reload: true
 
-- name: Compile sieve-before scripts # noqa no-changed-when
-  ansible.builtin.command: /usr/bin/sievec /etc/dovecot/sieve-before
-  notify:
-    - Restart dovecot
-
-- name: Compile imap-sieve scripts # noqa no-changed-when
-  ansible.builtin.command: /usr/bin/sievec /etc/dovecot/imap-sieve
+- name: Compile sieve scripts # noqa no-changed-when
+  ansible.builtin.command: "/usr/bin/sievec {{ dovecot_sieve_dir }}"
   notify:
     - Restart dovecot

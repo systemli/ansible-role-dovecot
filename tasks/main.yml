@@ -91,12 +91,8 @@
   tags:
     - molecule-notest
 
-- name: Import sieve-before tasks
-  ansible.builtin.import_tasks: sieve-before.yml
-
-- name: Import imap-sieve tasks
-  ansible.builtin.import_tasks: sieve-imap-sieve.yml
-  when: dovecot_sieve_imapsieve_scripts is defined
+- name: Import sieve tasks
+  ansible.builtin.import_tasks: sieve.yml
 
 - name: Configure dovecot
   ansible.builtin.template:
