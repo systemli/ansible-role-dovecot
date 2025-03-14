@@ -10,7 +10,7 @@ Tested with Github Action, Molecule, and Docker or Vagrant.
 Requirements
 ------------
 
-Debian 11 or 10. Other versions of Debian/Ubuntu might be supported as well, but aren't tested.
+Debian 12 or 11. Other versions of Debian/Ubuntu might be supported as well, but aren't tested.
 
 
 Testing & Development
