@@ -1,0 +1,20 @@
+---
+
+- name: Ensure imap-sieve dir is present
+  ansible.builtin.file:
+    path: /etc/dovecot/imap-sieve
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: Copy imap-sieve scripts
+  ansible.builtin.copy:
+    src: imap-sieve/{{ item }}
+    dest: /etc/dovecot/imap-sieve/{{ item }}
+    owner: root
+    group: root
+    mode: 0644
+  loop: "{{ dovecot_sieve_imapsieve_scripts }}"
+  notify:
+    - Compile imap-sieve scripts

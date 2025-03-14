@@ -47,6 +47,8 @@ dovecot_sieve_redirect_envelope_from: orig_recipient
 #  imapsieve_mailbox1_name: Junk
 #  imapsieve_mailbox1_causes: COPY
 #  imapsieve_mailbox1_before: file:/etc/dovecot/imap-sieve/report-spam.sieve
+#dovecot_sieve_imapsieve_scripts:
+#  - report-spam.sieve
 
 # See https://wiki.dovecot.org/LoginProcess for performance tuning
 dovecot_login_service_count: 1
