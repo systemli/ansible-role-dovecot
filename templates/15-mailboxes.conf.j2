@@ -89,4 +89,13 @@ namespace inbox {
   #  special_use = \Important
   #  comment = All my important messages
   #}
+{% for mailbox in dovecot_mailboxes_extra|default([]) %}
+
+  mailbox "{{ mailbox.name }}" {
+    auto = {{ mailbox.auto|default("subscribe") }}
+{% if mailbox.autoexpunge %}
+    autoexpunge = {{ mailbox.autoexpunge }}
+{% endif %}
+  }
+{% endfor %}
 }
