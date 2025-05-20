@@ -1,6 +1,6 @@
 ---
 dovecot_auth_mechanisms:
-  - checkpassword
+  - sql
 
 dovecot_apt_packages:
   - dovecot-core
