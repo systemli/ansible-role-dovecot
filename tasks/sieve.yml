@@ -33,7 +33,7 @@
 - name: Copy imap-sieve script
   ansible.builtin.template:
     src: sieve/{{ dovecot_sieve_imapsieve_script }}.j2
-    dest: "{{dovecot_sieve_dir }}/{{ dovecot_sieve_imapsieve_script }}"
+    dest: "{{ dovecot_sieve_dir }}/{{ dovecot_sieve_imapsieve_script }}"
     owner: root
     group: root
     mode: 0644
