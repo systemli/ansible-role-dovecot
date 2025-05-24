@@ -47,14 +47,14 @@
 - name: Set instance_name
   ansible.builtin.lineinfile:
     path: /etc/dovecot/dovecot.conf
-    line: "instance_name = {{ ansible_fqdn }}"
+    line: "instance_name = {{ dovecot_instance_name }}"
     regexp: "instance_name ="
   notify: Restart dovecot
 
 - name: Set login greeting
   ansible.builtin.lineinfile:
     path: /etc/dovecot/dovecot.conf
-    line: "login_greeting = {{ ansible_fqdn }} ready."
+    line: "login_greeting = {{ dovecot_login_greeting }} ready."
     regexp: "login_greeting ="
   notify: Restart dovecot
 
