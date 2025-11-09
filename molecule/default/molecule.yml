@@ -1,12 +1,15 @@
 ---
 driver:
-  name: vagrant
-  provider:
-    name: virtualbox
+  name: docker
 
 platforms:
-  - name: dovecot-bookworm64
-    box: debian/bookworm64
+  - name: debian12
+    image: "geerlingguy/docker-debian12-ansible:latest"
+    command: ""
+    volumes:
+      - /var/lib/containerd
+    pre_build_image: true
+    cgroupns: host
 
 lint: |
   set -e
