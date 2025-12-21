@@ -7,14 +7,6 @@
     group: vmail
     mode: 0700
 
-- name: Ensure ssh directory is present
-  ansible.builtin.file:
-    path: "/var/vmail/.ssh"
-    state: directory
-    owner: vmail
-    group: vmail
-    mode: 0700
-
 - name: Ensure dovecot_backup ssh keys is allowed
   ansible.posix.authorized_key:
     user: vmail
