@@ -80,8 +80,8 @@
     - name: Create cert
       ansible.builtin.command: /usr/share/dovecot/mkcert.sh
       args:
-        creates: /etc/dovecot/ssl/dovecot.pem
-        chdir: /etc/dovecot
+        creates: /etc/ssl/certs/dovecot.pem
+        chdir: /etc/dovecot/
 
 - name: Create DH param
   ansible.builtin.command: "openssl dhparam -out /etc/dovecot/dh.pem 4096"
