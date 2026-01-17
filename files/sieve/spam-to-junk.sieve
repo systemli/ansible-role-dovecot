@@ -3,4 +3,5 @@ require ["fileinto"];
 if allof (header :contains "X-Spam-Flag" "YES")
 {
 	fileinto "Junk";
+	stop;
 }
