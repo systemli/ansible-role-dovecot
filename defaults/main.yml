@@ -31,7 +31,7 @@ dovecot_mail_gid: "{{ dovecot_mail_uid }}"
 dovecot_mail_plugins:
   - mail_crypt
   - quota
-dovecot_mail_plugins_imap: $mail_plugins imap_quota
+dovecot_mail_plugins_imap: imap_quota = yes
 
 dovecot_lda_mailbox_autosubscribe: "yes"
 dovecot_lda_mail_plugins_extra: sieve
@@ -43,12 +43,16 @@ dovecot_junk_trash_autoexpunge: 30d
 #    auto: subscribe
 #    autoexpunge: "{{ dovecot_junk_trash_autoexpunge }}"
 
-dovecot_sieve_location: "file:/var/vmail/%d/%n/sieve;active=/var/vmail/%d/%n/.dovecot.sieve"
+dovecot_sieve_path: "/var/vmail/%{user | domain}/%{user | username}/sieve"
+dovecot_sieve_active_path: "/var/vmail/%{user | domain}/%{user | username}/.dovecot.sieve"
 dovecot_sieve_dir: /etc/dovecot/sieve
 #dovecot_sieve_default_script: default.sieve
 #dovecot_sieve_before_script: spam-to-junk.sieve
 dovecot_sieve_max_redirects: 20
 dovecot_sieve_redirect_envelope_from: orig_recipient
+
+#dovecot_ssl_cert:
+#dovecot_ssl_key:
 
 # IMAP Sieve filter settings
 #dovecot_mail_plugins_imap: $mail_plugins imap_quota imap_sieve
@@ -66,7 +70,7 @@ dovecot_login_process_min_avail: "{{ ansible_processor_cores * ansible_processor
 
 dovecot_postfix_auth: false
 
-dovecot_quota_options: ":ignoreunlimited:noenforcing"
+#dovecot_quota_options:
 dovecot_quota_storage: 1G
 
 dovecot_vmail_path: /var/vmail
