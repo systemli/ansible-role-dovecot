@@ -22,6 +22,7 @@ dovecot_mail_max_userip_connections: 10
 # Set process limit for imap service
 dovecot_process_limit_service_imap: 1024
 
+dovecot_mail_home: /var/vmail/%Ld/%Ln
 dovecot_mail_location: maildir:{{ dovecot_vmail_path }}/%Ld/%Ln/Maildir
 
 dovecot_mail_uid: 5000
