@@ -83,14 +83,6 @@
         creates: /etc/ssl/certs/dovecot.pem
         chdir: /etc/dovecot/
 
-- name: Create DH param
-  ansible.builtin.command: "openssl dhparam -out /etc/dovecot/dh.pem 4096"
-  args:
-    creates: /etc/dovecot/dh.pem
-  when: not __testing|d()
-  tags:
-    - molecule-notest
-
 - name: Import sieve tasks
   ansible.builtin.import_tasks: sieve.yml
 
