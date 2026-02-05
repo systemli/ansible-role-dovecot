@@ -34,9 +34,8 @@
 # at
 # https://doc.dovecot.org/2.4.1/core/config/mailbox/formats/mbox.html
 mail_driver = maildir
-mail_home = /var/vmail/%{user}
-mail_path = {{ dovecot_vmail_path }}/Maildir
-mail_inbox_path = /var/vmail/%{user}
+mail_home = {{ dovecot_mail_home }}
+mail_path = ~/Maildir
 
 # If you need to set multiple mailbox locations or want to change default
 # namespace settings, you can do it by defining namespace sections.
