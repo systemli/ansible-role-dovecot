@@ -14,6 +14,6 @@
     daemon_reload: true
 
 - name: Compile sieve scripts # noqa no-changed-when
-  ansible.builtin.command: "/usr/bin/sievec {{ dovecot_sieve_dir }}"
+  ansible.builtin.command: "/usr/bin/sievec {{ dovecot_sieve_common_script_dir }}"
   notify:
     - Restart

@@ -96,6 +96,17 @@ namespace inbox {
 {% if mailbox.autoexpunge %}
     autoexpunge = {{ mailbox.autoexpunge }}
 {% endif %}
+{% if mailbox.sieve_script %}
+{% for key, val in mailbox.sieve_script.items() %}
+
+    sieve_script {{ key }} {
+      cause = {{ val.cause }}
+      path = {{ val.path }}
+      type = {{ val.type }}
+    }
+
+{% endfor %}
+{% endif %}
   }
 {% endfor %}
 }

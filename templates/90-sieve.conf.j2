@@ -9,28 +9,16 @@
 
 # Personal sieve script location
 sieve_script personal {
+  active_path = {{ dovecot_sieve_personal_active_path }}
   driver = file
-  path = {{ dovecot_sieve_path }}
-  active_path = {{ dovecot_sieve_active_path }}
 }
 
 # Default sieve script location
-{% if dovecot_sieve_default_script is defined %}
 sieve_script default {
-  type = default
-  path = {{ dovecot_sieve_dir }}
-  name = {{ dovecot_sieve_default_script }}
   driver = file
+  name = default.sieve
+  path = {{ dovecot_sieve_common_script_dir }}
 }
-{% else %}
-#sieve_script default {
-#  type = default
-#  name = default
-#  driver = file
-#  path = /etc/dovecot/sieve/default/
-#}
-{% endif %}
-
 
 # Which Sieve language extensions are available to users. By default, all
 # supported extensions are available, except for deprecated extensions or
@@ -61,11 +49,17 @@ sieve_script default {
 # setting, the used plugins can be specified. Check the Dovecot documentation
 # https://doc.dovecot.org/latest/core/plugins/sieve.html
 
+sieve_plugins {
 {% if dovecot_sieve_plugins is defined %}
-  sieve_plugins = {{ dovecot_sieve_plugins }}
+{% for dovecot_sieve_plugin in dovecot_sieve_plugins %}
+  {{ dovecot_sieve_plugin }} = yes
+{% endfor %}
 {% else %}
-#sieve_plugins = sieve_imapsieve sieve_extprograms
+  sieve_imapsieve = yes
 {% endif %}
+}
+
+#sieve_plugins = sieve_imapsieve sieve_extprograms
 #sieve_pipe_bin_dir    = /usr/share/dovecot-pigeonhole/sieve
 #sieve_execute_bin_dir = /usr/share/dovecot-pigeonhole/sieve
 #sieve_global_extensions {
@@ -86,78 +80,41 @@ sieve_script default {
 # The maximum size of a Sieve script. The compiler will refuse to compile any
 # script larger than this limit. If set to 0, no limit on the script size is
 # enforced.
-#sieve_max_script_size = 1M
+sieve_max_script_size = {{ dovecot_sieve_max_script_size }}
 
 # The maximum number of actions that can be performed during a single script
 # execution. If set to 0, no limit on the total number of actions is enforced.
-#sieve_max_actions = 32
+sieve_max_actions = {{ dovecot_sieve_max_actions }}
 
 # The maximum number of redirect actions that can be performed during a single
 # script execution. If set to 0, no redirect actions are allowed.
 sieve_max_redirects = {{ dovecot_sieve_max_redirects }}
 
-  # Specifies what envelope sender address is used for redirected messages.
-  # The following values are supported for this setting:
-  #
-  #   "sender"         - The sender address is used (default).
-  #   "recipient"      - The final recipient address is used.
-  #   "orig_recipient" - The original recipient is used.
-  #   "user_email"     - The user's primary address is used. This is
-  #                      configured with the "sieve_user_email" setting. If
-  #                      that setting is unconfigured, "user_mail" is equal to
-  #                      "recipient".
-  #   "postmaster"     - The postmaster_address configured for the LDA.
-  #   "<user@domain>"  - Redirected messages are always sent from user@domain.
-  #                      The angle brackets are mandatory. The null "<>" address
-  #                      is also supported.
-  #
-  # This setting is ignored when the envelope sender is "<>". In that case the
-  # sender of the redirected message is also always "<>".
-  sieve_redirect_envelope_from = {{ dovecot_sieve_redirect_envelope_from }}
-
+# Specifies what envelope sender address is used for redirected messages.
+# The following values are supported for this setting:
+#
+#   "sender"         - The sender address is used (default).
+#   "recipient"      - The final recipient address is used.
+#   "orig_recipient" - The original recipient is used.
+#   "user_email"     - The user's primary address is used. This is
+#                      configured with the "sieve_user_email" setting. If
+#                      that setting is unconfigured, "user_mail" is equal to
+#                      "recipient".
+#   "postmaster"     - The postmaster_address configured for the LDA.
+#   "<user@domain>"  - Redirected messages are always sent from user@domain.
+#                      The angle brackets are mandatory. The null "<>" address
+#                      is also supported.
+#
+# This setting is ignored when the envelope sender is "<>". In that case the
+# sender of the redirected message is also always "<>".
+sieve_redirect_envelope_from = {{ dovecot_sieve_redirect_envelope_from }}
 
 # The maximum number of personal Sieve scripts a single user can have. If set
 # to 0, no limit on the number of scripts is enforced.
 # (Currently only relevant for ManageSieve)
-#sieve_quota_script_count = 0
+sieve_quota_script_count = {{ dovecot_sieve_quota_script_count }}
 
 # The maximum amount of disk storage a single user's scripts may occupy. If
 # set to 0, no limit on the used amount of disk storage is enforced.
 # (Currently only relevant for ManageSieve)
-#sieve_quota_storage_size = 0
-
-
-#mailbox Spam {
-## From elsewhere to Spam folder
-#  sieve_script report-spam {
-#    type = before
-#    cause = copy
-#    path = /etc/dovecot/report-spam.sieve
-#  }
-#}
-
-## From Spam folder to elsewhere
-#imapsieve_from Spam {
-#  sieve_script report-ham {
-#    type = before
-#    cause = copy
-#    path = /etc/dovecot/report-ham.sieve
-#  }
-#}
-
-{% if dovecot_sieve_before_script is defined %}
-  ## Move spam to Junk
-    sieve_script spam-to-junk {
-      type = before
-      cause = delivery
-      path = {{ sieve_dovecot_dir }}/{{ dovecot_sieve_before_script }}
-    }
-{% endif %}
-
-{% if dovecot_sieve_imapsieve is defined %}
-
-  # IMAP Sieve configuration
-{% for key, value in dovecot_sieve_imapsieve.items() %}
-  {{ key }} = {{ value }}
-{% endfor %}
-{% endif %}
+sieve_quota_storage_size = {{ dovecot_sieve_quota_storage_size }}
