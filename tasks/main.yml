@@ -102,21 +102,10 @@
     - 15-mailboxes.conf
     - 20-imap.conf
     - 20-managesieve.conf
+    - 90-mail-crypt.conf
     - 90-quota.conf
     - 90-sieve.conf
     - 90-stats.conf
-
-- name: Configure mail_crypt
-  ansible.builtin.copy:
-    src: 90-mail-crypt.conf
-    dest: /etc/dovecot/conf.d/
-    owner: root
-    group: root
-    mode: 0644
-  notify:
-    - Validate
-    - Restart
-  when: '"mail_crypt" in dovecot_mail_plugins'
 
 - name: Set dovecot user limit in sysctl
   ansible.posix.sysctl:
