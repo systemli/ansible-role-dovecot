@@ -118,8 +118,8 @@ namespace inbox {
 # System user and group used to access mails. If you use multiple, userdb
 # can override these by returning uid or gid fields. You can use either numbers
 # or names. <https://doc.dovecot.org/latest/core/config/system_users.html#uids>
-#mail_uid =
-#mail_gid =
+mail_uid = {{ dovecot_mail_uid }}
+mail_gid = {{ dovecot_mail_uid }}
 
 # Group to enable temporarily for privileged operations. Currently this is
 # used only with INBOX when either its initial creation or dotlocking fails.
@@ -219,7 +219,7 @@ namespace inbox {
 # (eg. /home/./user chroots into /home). Note that usually there is no real
 # need to do chrooting, Dovecot doesn't allow users to access files outside
 # their mail directory anyway. If your home directories are prefixed with
-# the chroot directory, append "/." to mail_chroot. <doc/wiki/Chrooting.txt>
+# the chroot directory, append "/." to mail_chroot. <https://doc.dovecot.org/latest/core/config/chrooting.html>
 #mail_chroot = 
 
 # UNIX socket path to master authentication server to find users.
@@ -231,7 +231,7 @@ namespace inbox {
 
 # Space separated list of plugins to load for all services. Plugins specific to
 # IMAP, LDA, etc. are added to this list in their own .conf files.
-#mail_plugins = {{ dovecot_mail_plugins|join(' ') }}
+mail_plugins = {{ dovecot_mail_plugins|join(' ') }}
 #
 # To add plugins, use
 #mail_plugins {
