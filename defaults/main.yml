@@ -22,7 +22,7 @@ dovecot_mail_max_userip_connections: 10
 # Set process limit for imap service
 dovecot_process_limit_service_imap: 1024
 
-dovecot_mail_home: "{{ dovecot_vmail_path }}/%{user | domain}/%{user | username}"
+dovecot_mail_home: "{{ dovecot_vmail_path }}/%{user | domain | lower}/%{user | username | lower}"
 
 dovecot_mail_uid: 5000
 dovecot_mail_gid: "{{ dovecot_mail_uid }}"
@@ -42,8 +42,8 @@ dovecot_junk_trash_autoexpunge: 30d
 #    auto: subscribe
 #    autoexpunge: "{{ dovecot_junk_trash_autoexpunge }}"
 
-dovecot_sieve_path: "{{ dovecot_vmail_path }}/%{user | domain}/%{user | username}/sieve"
-dovecot_sieve_active_path: "{{ dovecot_vmail_path }}/%{user | domain}/%{user | username}/.dovecot.sieve"
+dovecot_sieve_path: "{{ dovecot_vmail_path }}/%{user | domain | lower}/%{user | username | lower}/sieve"
+dovecot_sieve_active_path: "{{ dovecot_vmail_path }}/%{user | domain | lower}/%{user | username | lower}/.dovecot.sieve"
 dovecot_sieve_dir: /etc/dovecot/sieve
 #dovecot_sieve_default_script: default.sieve
 #dovecot_sieve_before_script: spam-to-junk.sieve
