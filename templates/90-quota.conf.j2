@@ -15,19 +15,14 @@
 # to give additional 100 MB when saving to Trash:
 
 quota "User quota" {
-   storage_size = {{ dovecot_quota_storage }}
+  quota_enforce = {{ dovecot_quota_enforce }} 
+  storage_size = {{ dovecot_quota_storage }}
 }
 
 namespace inbox {
    mailbox Trash {
      quota_ignore = yes
    }
-}
-
-namespace inbox {
-  mailbox SPAM {
-    quota_ignore = yes
-  }
 }
 
 ##

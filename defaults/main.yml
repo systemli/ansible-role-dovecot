@@ -67,7 +67,7 @@ dovecot_sieve_redirect_envelope_from: orig_recipient
 
 dovecot_postfix_auth: false
 
-#dovecot_quota_options:
+dovecot_quota_enforce: "yes"
 dovecot_quota_storage: 1G
 
 dovecot_vmail_path: /var/vmail
