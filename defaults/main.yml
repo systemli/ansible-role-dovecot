@@ -30,7 +30,9 @@ dovecot_mail_gid: "{{ dovecot_mail_uid }}"
 dovecot_mail_plugins:
   - mail_crypt
   - quota
-dovecot_mail_plugins_imap: imap_quota = yes
+dovecot_mail_plugins_imap:
+  - imap_quota
+  - imap_sieve
 
 dovecot_lda_mailbox_autosubscribe: "yes"
 dovecot_lda_mail_plugins_extra: sieve
@@ -54,7 +56,6 @@ dovecot_sieve_redirect_envelope_from: orig_recipient
 #dovecot_ssl_key:
 
 # IMAP Sieve filter settings
-#dovecot_mail_plugins_imap: $mail_plugins imap_quota imap_sieve
 #dovecot_sieve_plugins: sieve_imapsieve
 #dovecot_sieve_imapsieve:
 #  imapsieve_mailbox1_name: Junk

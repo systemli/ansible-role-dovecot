@@ -96,22 +96,25 @@
 #     from going into infinite loops trying to FETCH a broken mail.
 #imap_fetch_failure = disconnect-immediately
 
-{% if dovecot_mail_plugins_imap is defined%}
+{% if dovecot_mail_plugins_imap is defined %}
 protocol imap {
   # Space separated list of plugins to load (default is global mail_plugins).
-    mail_plugins {
-      {{ dovecot_mail_plugins_imap }}
-    }
+  mail_plugins {
+{% for dovecot_mail_plugin_imap in dovecot_mail_plugins_imap %}
+    {{ dovecot_mail_plugin_imap }} = yes
+{% endfor %}
+  }
 }
 {% else %}
 # protocol imap {
 #   # Space separated list of plugins to load (default is global mail_plugins).
-#     mail_plugins {
-#       {{ dovecot_mail_plugins_imap }}
-#     }
+#   mail_plugins {
+#     imap_quota = yes
+#     imap_sieve = yes
+#   }
 # }
 {% endif %}
 
-  # Maximum number of IMAP connections allowed for a user from each IP address.
-  # NOTE: The username is compared case-sensitively.
-  mail_max_userip_connections = {{ dovecot_mail_max_userip_connections }}
+# Maximum number of IMAP connections allowed for a user from each IP address.
+# NOTE: The username is compared case-sensitively.
+mail_max_userip_connections = {{ dovecot_mail_max_userip_connections }}
