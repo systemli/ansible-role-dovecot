@@ -88,7 +88,3 @@ dovecot_backup_script_path: "/root/sync_mailboxes_to_remote.sh"
 dovecot_systemd_environment: |
   # Set to '1' to allow Dovecot daemons to produce core dumps
   #ALLOW_COREDUMPS=1
-
-# use hostname as Dovecot instance name:
-dovecot_instance_name: "{{ ansible_fqdn }}"
-dovecot_login_greeting: "{{ dovecot_instance_name }}"

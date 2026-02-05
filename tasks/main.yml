@@ -44,20 +44,6 @@
     append: true
     groups: "{{ dovecot_userli_user }}"
 
-# - name: Set instance_name
-#   ansible.builtin.lineinfile:
-#     path: /etc/dovecot/dovecot.conf
-#     line: "instance_name = {{ dovecot_instance_name }}"
-#     regexp: "instance_name ="
-#   notify: Restart dovecot
-# 
-# - name: Set login greeting
-#   ansible.builtin.lineinfile:
-#     path: /etc/dovecot/dovecot.conf
-#     line: "login_greeting = {{ dovecot_login_greeting }} ready."
-#     regexp: "login_greeting ="
-#   notify: Restart dovecot
-
 - name: Create self-signed ssl cert
   when: dovecot_ssl_key is not defined
   block:
@@ -86,7 +72,16 @@
 - name: Import sieve tasks
   ansible.builtin.import_tasks: sieve.yml
 
-- name: Configure dovecot
+- name: Configure dovecot 1
+  ansible.builtin.template:
+    src: dovecot.conf.j2
+    dest: /etc/dovecot/dovecot.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart dovecot
+
+- name: Configure dovecot 2
   ansible.builtin.template:
     src: "{{ item }}.j2"
     dest: /etc/dovecot/conf.d/{{ item }}
