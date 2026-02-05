@@ -79,7 +79,9 @@
     owner: root
     group: root
     mode: 0644
-  notify: Restart dovecot
+  notify:
+    - Validate
+    - Restart
 
 - name: Configure dovecot 2
   ansible.builtin.template:
@@ -88,6 +90,9 @@
     owner: root
     group: root
     mode: 0644
+  notify:
+    - Validate
+    - Restart
   with_items:
     - 10-auth.conf
     - 10-mail.conf
@@ -100,7 +105,6 @@
     - 90-quota.conf
     - 90-sieve.conf
     - 90-stats.conf
-  notify: Restart dovecot
 
 - name: Configure mail_crypt
   ansible.builtin.copy:
@@ -109,7 +113,9 @@
     owner: root
     group: root
     mode: 0644
-  notify: Restart dovecot
+  notify:
+    - Validate
+    - Restart
   when: '"mail_crypt" in dovecot_mail_plugins'
 
 - name: Set dovecot user limit in sysctl

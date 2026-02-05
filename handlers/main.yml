@@ -1,10 +1,15 @@
 ---
-- name: Restart dovecot
+- name: Validate
+  ansible.builtin.command: "/usr/bin/doveconf"
+  check_mode: false
+  listen: Validate
+
+- name: Restart
   ansible.builtin.service:
     name: dovecot
     state: restarted
 
-- name: Reload dovecot
+- name: Reload
   ansible.builtin.service:
     name: dovecot
     state: reloaded
@@ -16,4 +21,4 @@
 - name: Compile sieve scripts # noqa no-changed-when
   ansible.builtin.command: "/usr/bin/sievec {{ dovecot_sieve_dir }}"
   notify:
-    - Restart dovecot
+    - Restart

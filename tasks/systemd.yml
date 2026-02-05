@@ -16,7 +16,7 @@
     mode: 0644
   notify:
     - Reload systemd
-    - Restart dovecot
+    - Restart
 
 - name: Copy environment file
   ansible.builtin.copy:
@@ -27,7 +27,7 @@
     mode: 0640
   notify:
     - Reload systemd
-    - Restart dovecot
+    - Restart
 
 - name: Copy systemd environment drop in
   ansible.builtin.copy:
@@ -38,4 +38,4 @@
     mode: 0644
   notify:
     - Reload systemd
-    - Restart dovecot
+    - Restart
