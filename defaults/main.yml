@@ -72,8 +72,8 @@ dovecot_quota_storage: 1G
 
 dovecot_vmail_path: /var/vmail
 
-dovecot_openmetrics_enabled: false
-dovecot_openmetrics_port: 9900
+dovecot_metrics_enabled: false
+dovecot_metrics_port: 9900
 
 # enable dovecot backup
 dovecot_backup_lead: false

@@ -97,6 +97,7 @@
     - 10-auth.conf
     - 10-mail.conf
     - 10-master.conf
+    - 10-metrics.conf
     - 10-ssl.conf
     - 15-lda.conf
     - 15-mailboxes.conf
@@ -114,11 +115,6 @@
     state: present
     sysctl_file: /etc/sysctl.d/90-ansible-fs.conf
     sysctl_set: true
-
-- name: Import openmetrics tasks
-  ansible.builtin.import_tasks: openmetrics.yml
-  when: dovecot_openmetrics_enabled
-  tags: openmetrics
 
 - name: Import backup leader tasks
   ansible.builtin.import_tasks: dovecot_backup_lead.yml
