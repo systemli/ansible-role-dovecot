@@ -62,8 +62,9 @@ dovecot_sieve_quota_storage_size: 1M
 dovecot_sieve_recipient: spam@localhost
 dovecot_sieve_redirect_envelope_from: orig_recipient
 
-#dovecot_ssl_cert:
-#dovecot_ssl_key:
+# dovecot_ssl_cert:
+# dovecot_ssl_key:
+dovecot_ssl_min_protocol: TLSv1.2
 
 dovecot_postfix_auth: false
 
