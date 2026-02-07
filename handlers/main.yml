@@ -1,5 +1,5 @@
 ---
-- name: Validate
+- name: Validate # noqa no-changed-when
   ansible.builtin.command: "/usr/bin/doveconf"
   check_mode: false
   listen: Validate

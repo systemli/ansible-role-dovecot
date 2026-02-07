@@ -4,7 +4,7 @@
     path: /etc/systemd/system/dovecot.service.d/
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
     state: directory
 
 - name: Copy systemd limits drop in
@@ -13,7 +13,7 @@
     dest: /etc/systemd/system/dovecot.service.d/limits.conf
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   notify:
     - Reload systemd
     - Restart
@@ -24,7 +24,7 @@
     dest: /etc/default/dovecot
     owner: root
     group: root
-    mode: 0640
+    mode: "0640"
   notify:
     - Reload systemd
     - Restart
@@ -35,7 +35,7 @@
     dest: /etc/systemd/system/dovecot.service.d/environment.conf
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   notify:
     - Reload systemd
     - Restart

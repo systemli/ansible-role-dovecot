@@ -28,7 +28,7 @@
     state: directory
     owner: vmail
     group: vmail
-    mode: "u+rw,g+rw,o-rwx"
+    mode: "770"
 
 - name: Ensure dovecot is installed
   ansible.builtin.apt:
@@ -53,7 +53,7 @@
         dest: /etc/dovecot/dovecot-openssl.cnf
         owner: root
         group: root
-        mode: 0644
+        mode: "0644"
 
     - name: Ensure ssl folder is present
       ansible.builtin.file:
@@ -61,7 +61,7 @@
         state: directory
         owner: root
         group: dovecot
-        mode: 0640
+        mode: "0640"
 
     - name: Create cert
       ansible.builtin.command: /usr/share/dovecot/mkcert.sh
@@ -78,7 +78,7 @@
     dest: /etc/dovecot/dovecot.conf
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   notify:
     - Validate
     - Restart
@@ -89,7 +89,7 @@
     dest: /etc/dovecot/conf.d/{{ item }}
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   notify:
     - Validate
     - Restart

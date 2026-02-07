@@ -5,7 +5,7 @@
     state: directory
     owner: vmail
     group: vmail
-    mode: 0700
+    mode: "0700"
 
 - name: Ensure dovecot_backup ssh keys is allowed
   ansible.posix.authorized_key:
