@@ -19,11 +19,11 @@ dovecot_default_process_limit: 1000
 dovecot_default_client_limit: 10000
 dovecot_mail_max_userip_connections: 10
 
-# Set process limit for imap service
-dovecot_process_limit_service_imap: 1024
+dovecot_service_process_min_avail: "{{ ansible_processor_cores * ansible_processor_count }}"
+dovecot_service_restart_request_count: 1024
 
-dovecot_mail_home: /var/vmail/%Ld/%Ln
-dovecot_mail_location: maildir:{{ dovecot_vmail_path }}/%Ld/%Ln/Maildir
+dovecot_mail_home: "{{ dovecot_vmail_path }}/%{user | domain | lower}/%{user | username | lower}"
+dovecot_vmail_path: /var/vmail
 
 dovecot_mail_uid: 5000
 dovecot_mail_gid: "{{ dovecot_mail_uid }}"
@@ -31,48 +31,48 @@ dovecot_mail_gid: "{{ dovecot_mail_uid }}"
 dovecot_mail_plugins:
   - mail_crypt
   - quota
-dovecot_mail_plugins_imap: $mail_plugins imap_quota
+dovecot_mail_plugins_imap:
+  - imap_quota
+  - imap_sieve
 
 dovecot_lda_mailbox_autosubscribe: "yes"
-dovecot_lda_mail_plugins_extra: sieve
+dovecot_lda_mail_plugins_extra:
+  - sieve
 
 # Mailbox settings
 dovecot_junk_trash_autoexpunge: 30d
-#dovecot_mailboxes_extra:
-#  - name: Second Spam Folder
-#    auto: subscribe
-#    autoexpunge: "{{ dovecot_junk_trash_autoexpunge }}"
+dovecot_mailboxes_extra: []
+# dovecot_mailboxes_extra:
+#   - name: Report spam
+#     auto: subscribe
+#     autoexpunge: "{{ dovecot_junk_trash_autoexpunge }}"
+#     sieve_script:
+#       report-spam:
+#         cause: copy
+#         path: "{{ dovecot_sieve_common_script_dir }}/report-spam.sieve"
+#         type: before
 
-dovecot_sieve_location: "file:/var/vmail/%d/%n/sieve;active=/var/vmail/%d/%n/.dovecot.sieve"
-dovecot_sieve_dir: /etc/dovecot/sieve
-#dovecot_sieve_default_script: default.sieve
-#dovecot_sieve_before_script: spam-to-junk.sieve
+dovecot_sieve_common_script_dir: /etc/dovecot/sieve
+dovecot_sieve_personal_active_path: "~/.dovecot.sieve"
+dovecot_sieve_max_actions: 32
 dovecot_sieve_max_redirects: 20
+dovecot_sieve_max_script_size: 1M
+dovecot_sieve_quota_script_count: 10
+dovecot_sieve_quota_storage_size: 1M
+dovecot_sieve_recipient: spam@localhost
 dovecot_sieve_redirect_envelope_from: orig_recipient
 
-# IMAP Sieve filter settings
-#dovecot_mail_plugins_imap: $mail_plugins imap_quota imap_sieve
-#dovecot_sieve_plugins: sieve_imapsieve
-#dovecot_sieve_imapsieve:
-#  imapsieve_mailbox1_name: Junk
-#  imapsieve_mailbox1_causes: COPY
-#  imapsieve_mailbox1_before: file:/etc/dovecot/sieve/report-spam.sieve
-#dovecot_sieve_imapsieve_script: report-spam.sieve
-#dovecot_sieve_imapsieve_recipient: spam@localhost
-
-# See https://wiki.dovecot.org/LoginProcess for performance tuning
-dovecot_login_service_count: 1
-dovecot_login_process_min_avail: "{{ ansible_processor_cores * ansible_processor_count }}"
+# dovecot_ssl_cert:
+# dovecot_ssl_key:
+dovecot_ssl_min_protocol: TLSv1.2
 
 dovecot_postfix_auth: false
 
-dovecot_quota_options: ":ignoreunlimited:noenforcing"
+dovecot_quota_enforce: "yes"
 dovecot_quota_storage: 1G
 
-dovecot_vmail_path: /var/vmail
-
-dovecot_openmetrics_enabled: false
-dovecot_openmetrics_port: 9900
+dovecot_metrics_enabled: false
+dovecot_metrics_port: 9900
 
 # enable dovecot backup
 dovecot_backup_lead: false
@@ -85,7 +85,3 @@ dovecot_backup_script_path: "/root/sync_mailboxes_to_remote.sh"
 dovecot_systemd_environment: |
   # Set to '1' to allow Dovecot daemons to produce core dumps
   #ALLOW_COREDUMPS=1
-
-# use hostname as Dovecot instance name:
-dovecot_instance_name: "{{ ansible_fqdn }}"
-dovecot_login_greeting: "{{ dovecot_instance_name }}"

@@ -28,7 +28,7 @@
     state: directory
     owner: vmail
     group: vmail
-    mode: "u+rw,g+rw,o-rwx"
+    mode: "770"
 
 - name: Ensure dovecot is installed
   ansible.builtin.apt:
@@ -44,20 +44,6 @@
     append: true
     groups: "{{ dovecot_userli_user }}"
 
-- name: Set instance_name
-  ansible.builtin.lineinfile:
-    path: /etc/dovecot/dovecot.conf
-    line: "instance_name = {{ dovecot_instance_name }}"
-    regexp: "instance_name ="
-  notify: Restart dovecot
-
-- name: Set login greeting
-  ansible.builtin.lineinfile:
-    path: /etc/dovecot/dovecot.conf
-    line: "login_greeting = {{ dovecot_login_greeting }} ready."
-    regexp: "login_greeting ="
-  notify: Restart dovecot
-
 - name: Create self-signed ssl cert
   when: dovecot_ssl_key is not defined
   block:
@@ -67,7 +53,7 @@
         dest: /etc/dovecot/dovecot-openssl.cnf
         owner: root
         group: root
-        mode: 0644
+        mode: "0644"
 
     - name: Ensure ssl folder is present
       ansible.builtin.file:
@@ -75,55 +61,52 @@
         state: directory
         owner: root
         group: dovecot
-        mode: 0640
+        mode: "0640"
 
     - name: Create cert
       ansible.builtin.command: /usr/share/dovecot/mkcert.sh
       args:
-        creates: /etc/dovecot/ssl/dovecot.pem
-        chdir: /etc/dovecot
-
-- name: Create DH param
-  ansible.builtin.command: "openssl dhparam -out /etc/dovecot/dh.pem 4096"
-  args:
-    creates: /etc/dovecot/dh.pem
-  when: not __testing|d()
-  tags:
-    - molecule-notest
+        creates: /etc/ssl/certs/dovecot.pem
+        chdir: /etc/dovecot/
 
 - name: Import sieve tasks
   ansible.builtin.import_tasks: sieve.yml
 
-- name: Configure dovecot
+- name: Configure dovecot 1
+  ansible.builtin.template:
+    src: dovecot.conf.j2
+    dest: /etc/dovecot/dovecot.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Validate
+    - Restart
+
+- name: Configure dovecot 2
   ansible.builtin.template:
     src: "{{ item }}.j2"
     dest: /etc/dovecot/conf.d/{{ item }}
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
+  notify:
+    - Validate
+    - Restart
   with_items:
     - 10-auth.conf
     - 10-mail.conf
     - 10-master.conf
+    - 10-metrics.conf
     - 10-ssl.conf
     - 15-lda.conf
     - 15-mailboxes.conf
     - 20-imap.conf
     - 20-managesieve.conf
+    - 90-mail-crypt.conf
     - 90-quota.conf
     - 90-sieve.conf
     - 90-stats.conf
-  notify: Restart dovecot
-
-- name: Configure mail_crypt
-  ansible.builtin.copy:
-    src: 90-mail-crypt.conf
-    dest: /etc/dovecot/conf.d/
-    owner: root
-    group: root
-    mode: 0644
-  notify: Restart dovecot
-  when: '"mail_crypt" in dovecot_mail_plugins'
 
 - name: Set dovecot user limit in sysctl
   ansible.posix.sysctl:
@@ -132,11 +115,6 @@
     state: present
     sysctl_file: /etc/sysctl.d/90-ansible-fs.conf
     sysctl_set: true
-
-- name: Import openmetrics tasks
-  ansible.builtin.import_tasks: openmetrics.yml
-  when: dovecot_openmetrics_enabled
-  tags: openmetrics
 
 - name: Import backup leader tasks
   ansible.builtin.import_tasks: dovecot_backup_lead.yml

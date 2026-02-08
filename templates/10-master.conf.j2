@@ -18,6 +18,7 @@ service imap-login {
   inet_listener imap {
     #port = 143
   }
+
   inet_listener imaps {
     #port = 993
     #ssl = yes
@@ -25,13 +26,13 @@ service imap-login {
 
   # Number of connections to handle before starting a new process. Typically
   # the only useful values are 0 (unlimited) or 1. 1 is more secure, but 0
-  # is faster. <doc/wiki/LoginProcess.txt>
-  service_count = {{ dovecot_login_service_count }}
+  # is faster. <https://doc.dovecot.org/2.4.1/core/config/service.html#service_restart_request_count>
+  service_restart_request_count = {{ dovecot_service_restart_request_count }}
 
   # Number of processes to always keep waiting for more connections.
-  process_min_avail = {{ dovecot_login_process_min_avail }}
+  service_process_min_avail = {{ dovecot_service_process_min_avail }}
 
-  # If you set service_count=0, you probably need to grow this.
+  # If you set service_restart_request_count=0, you probably need to grow this.
   #vsz_limit = $default_vsz_limit
 }
 
@@ -39,6 +40,7 @@ service pop3-login {
   inet_listener pop3 {
     #port = 110
   }
+
   inet_listener pop3s {
     #port = 995
     #ssl = yes
@@ -46,13 +48,13 @@ service pop3-login {
 
   # Number of connections to handle before starting a new process. Typically
   # the only useful values are 0 (unlimited) or 1. 1 is more secure, but 0
-  # is faster. <doc/wiki/LoginProcess.txt>
-  service_count = {{ dovecot_login_service_count }}
+  # is faster. <https://doc.dovecot.org/2.4.1/core/config/service.html#service_restart_request_count>
+  service_restart_request_count = {{ dovecot_service_restart_request_count }}
 
   # Number of processes to always keep waiting for more connections.
-  process_min_avail = {{ dovecot_login_process_min_avail }}
+  service_process_min_avail = {{ dovecot_service_process_min_avail }}
 
-  # If you set service_count=0, you probably need to grow this.
+  # If you set service_restart_request_count=0, you probably need to grow this.
   #vsz_limit = $default_vsz_limit
 }
 
@@ -70,7 +72,7 @@ service lmtp {
   # Create inet listener only if you can't use the above UNIX socket
   inet_listener lmtp {
     # Avoid making LMTP visible for the entire internet
-    address = 127.0.0.1
+    listen = 127.0.0.1
     port = 24
   }
 }
@@ -81,7 +83,7 @@ service imap {
   #vsz_limit = $default_vsz_limit
 
   # Max. number of IMAP processes (connections)
-  process_limit = {{ dovecot_process_limit_service_imap }}
+  process_limit = {{ dovecot_service_restart_request_count }}
 }
 
 service pop3 {
@@ -124,16 +126,16 @@ service auth {
 
 {% endif %}
   # Auth process is run as this user.
-  #user = $default_internal_user
+  #user = $SET:default_internal_user
   extra_groups = {{ dovecot_userli_user }}
 }
 
 service auth-worker {
   # Auth worker process is run as root by default, so that it can access
   # /etc/shadow. If this isn't necessary, the user should be changed to
-  # $default_internal_user.
+  # user = $SET:default_internal_user
   #user = root
-  user = $default_internal_user
+  user = {{ dovecot_userli_user }}
 }
 
 service dict {
