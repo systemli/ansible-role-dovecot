@@ -10,13 +10,10 @@ protocols {
 # Service definitions
 
 service managesieve-login {
-  #inet_listener sieve {
-  #  port = 4190
-  #}
-
-  #inet_listener sieve_deprecated {
-  #  port = 2000
-  #}
+  inet_listener sieve {
+    port = 4190
+    ssl = yes
+  }
 
   # Number of connections to handle before starting a new process. Typically
   # the only useful values are 0 (unlimited) or 1. 1 is more secure, but 0
