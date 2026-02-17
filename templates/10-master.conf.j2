@@ -112,7 +112,7 @@ service auth {
   # permissions (e.g. 0777 allows everyone full permissions).
   unix_listener auth-userdb {
     mode = 0660
-    #user = 
+    #user =
     group = vmail
   }
 
@@ -127,15 +127,13 @@ service auth {
 {% endif %}
   # Auth process is run as this user.
   #user = $SET:default_internal_user
-  extra_groups = {{ dovecot_userli_user }}
 }
 
 service auth-worker {
   # Auth worker process is run as root by default, so that it can access
   # /etc/shadow. If this isn't necessary, the user should be changed to
   # user = $SET:default_internal_user
-  #user = root
-  user = {{ dovecot_userli_user }}
+  user = {{ dovecot_auth_worker_user }}
 }
 
 service dict {
@@ -143,7 +141,7 @@ service dict {
   # For example: mode=0660, group=vmail and global mail_access_groups=vmail
   unix_listener dict {
     #mode = 0600
-    #user = 
-    #group = 
+    #user =
+    #group =
   }
 }

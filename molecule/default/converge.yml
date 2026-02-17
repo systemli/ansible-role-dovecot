@@ -6,4 +6,3 @@
     - role: ansible-role-dovecot
   vars:
     __testing: true
-    dovecot_userli_user: dovecot

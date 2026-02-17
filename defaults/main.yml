@@ -18,6 +18,7 @@ dovecot_default_vsz_limit: 1G
 dovecot_default_process_limit: 1000
 dovecot_default_client_limit: 10000
 dovecot_mail_max_userip_connections: 10
+dovecot_auth_worker_user: root
 
 dovecot_service_process_min_avail: "{{ ansible_processor_cores * ansible_processor_count }}"
 dovecot_service_restart_request_count: 1024
