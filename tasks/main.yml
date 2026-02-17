@@ -38,12 +38,6 @@
 - name: Import systemd tasks
   ansible.builtin.import_tasks: systemd.yml
 
-- name: Ensure dovecot is in group of userli
-  ansible.builtin.user:
-    name: dovecot
-    append: true
-    groups: "{{ dovecot_userli_user }}"
-
 - name: Create self-signed ssl cert
   when: dovecot_ssl_key is not defined
   block:
