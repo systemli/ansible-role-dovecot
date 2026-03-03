@@ -7,18 +7,18 @@
 
 # See https://doc.dovecot.org/latest/core/plugins/sieve.html
 
+# Default sieve before script location
+sieve_script default {
+  driver = file
+  path = {{ dovecot_sieve_common_script_dir }}/default.sieve
+  type = before
+}
+
 # Personal sieve script location
 sieve_script personal {
   active_path = {{ dovecot_sieve_personal_active_path }}
+  driver = file
   path = ~/sieve
-  driver = file
-}
-
-# Default sieve script location
-sieve_script default {
-  driver = file
-  name = default.sieve
-  path = {{ dovecot_sieve_common_script_dir }}
 }
 
 # Which Sieve language extensions are available to users. By default, all
