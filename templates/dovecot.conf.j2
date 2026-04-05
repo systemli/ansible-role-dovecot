@@ -73,9 +73,18 @@ dovecot_storage_version = 2.4.0
 # Space separated list of environment variables that are preserved on Dovecot
 # startup and passed down to all of its child processes. You can also give
 # key=value pairs to always set specific settings.
-#import_environment {
-#  TZ=%{env:TZ}
-#}
+import_environment {
+  # The use of the TZ environment variable can dramatically reduce the number
+  # of system calls and kernel context switches performed by the application.
+  # The localtime() function in glibc checks whether the TZ environment
+  # variable is set. If it is not set, then glibc will use the stat() system
+  # call every time localtime() is called, even with vDSO in place.
+  # Setting the TZ environment variable to :/etc/localtime (or some other
+  # timezone file of your choice) for a process will save glibc from making
+  # those extra unnecessary system calls (Notice the column : prefix before the
+  # file path).
+  TZ = :/etc/localtime
+}
 
 # Most of the actual configuration gets included below. The filenames are
 # first sorted by their ASCII value and parsed in that order. The 00-prefixes
