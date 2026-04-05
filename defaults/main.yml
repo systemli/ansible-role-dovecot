@@ -20,6 +20,10 @@ dovecot_default_client_limit: 10000
 dovecot_mail_max_userip_connections: 10
 dovecot_auth_worker_user: root
 
+# dovecot_remote_connections:
+#   "127.0.0.1":
+#     mail_max_userip_connections: 150
+
 dovecot_service_process_min_avail: "{{ ansible_processor_cores * ansible_processor_count }}"
 dovecot_service_restart_request_count: 1024
 
