@@ -317,7 +317,7 @@ maildir_very_dirty_syncs = yes
 # getting the mail's physical size, except when recalculating Maildir++ quota.
 # This can be useful in systems where a lot of the Maildir filenames have a
 # broken size. The performance hit for enabling this is very small.
-#maildir_broken_filename_sizes = no
+maildir_broken_filename_sizes = {{ dovecot_maildir_broken_filename_sizes }}
 
 # Always move mails from new/ directory to cur/, even when the \Recent flags
 # aren't being reset.
