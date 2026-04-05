@@ -244,12 +244,12 @@ mail_plugins = {{ dovecot_mail_plugins|join(' ') }}
 
 # Mailbox list indexes can be used to optimize IMAP STATUS commands. They are
 # also required for IMAP NOTIFY extension to be enabled.
-#mailbox_list_index = yes
+mailbox_list_index = yes
 
 # Trust mailbox list index to be up-to-date. This reduces disk I/O at the cost
 # of potentially returning out-of-date results after e.g. server crashes.
 # The results will be automatically fixed once the folders are opened.
-#mailbox_list_index_very_dirty_syncs = yes
+mailbox_list_index_very_dirty_syncs = yes
 
 # Should INBOX be kept up-to-date in the mailbox list index? By default it's
 # not, because most of the mailbox accesses will open INBOX anyway.
@@ -311,7 +311,7 @@ maildir_copy_with_hardlinks = yes
 
 # Assume Dovecot is the only MUA accessing Maildir: Scan cur/ directory only
 # when its mtime changes unexpectedly or when we can't find the mail otherwise.
-maildir_very_dirty_syncs = no
+maildir_very_dirty_syncs = yes
 
 # If enabled, Dovecot doesn't use the S=<size> in the Maildir filenames for
 # getting the mail's physical size, except when recalculating Maildir++ quota.
