@@ -123,9 +123,9 @@ mail_max_userip_connections = {{ dovecot_mail_max_userip_connections }}
 {% if dovecot_remote_connections | default({}) %}
 {% for ip, settings in dovecot_remote_connections.items() %}
 remote {{ ip }} {
-  {% for key, value in settings.items() %}
+{% for key, value in settings.items() %}
   {{ key }} = {{ value }}
-  {% endfor %}
+{% endfor %}
 }
 {% endfor %}
 {% endif %}
