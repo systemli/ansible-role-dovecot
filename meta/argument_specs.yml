@@ -1,0 +1,149 @@
+---
+argument_specs:
+  main:
+    short_description: Install and maintain Dovecot (2.4) on Debian
+    description:
+      - Installs and configures Dovecot with virtual mail users, sieve, quota and optional backup synchronization.
+    options:
+      dovecot_auth_mechanisms:
+        type: list
+        elements: str
+      dovecot_allow_cleartext_auth:
+        type: str
+        description:
+          - Value of C(auth_allow_cleartext). Defaults to C(no) if unset.
+      dovecot_apt_packages:
+        type: list
+        elements: str
+      dovecot_dependencies:
+        type: list
+        elements: str
+      dovecot_default_vsz_limit:
+        type: str
+      dovecot_default_process_limit:
+        type: int
+      dovecot_default_client_limit:
+        type: int
+      dovecot_mail_max_userip_connections:
+        type: int
+      dovecot_auth_worker_user:
+        type: str
+      dovecot_remote_connections:
+        type: dict
+        description:
+          - Remote specific overrides, keyed by IP address. Each value is a dict of Dovecot settings, for example C(mail_max_userip_connections).
+      dovecot_service_process_min_avail:
+        type: int
+      dovecot_service_restart_request_count:
+        type: int
+      dovecot_mail_home:
+        type: str
+      dovecot_vmail_path:
+        type: path
+      dovecot_mail_uid:
+        type: int
+      dovecot_mail_gid:
+        type: int
+        description:
+          - Currently not used by the role's templates, which use C(dovecot_mail_uid) for the group as well.
+      dovecot_mail_plugins:
+        type: list
+        elements: str
+      dovecot_mail_plugins_imap:
+        type: list
+        elements: str
+      dovecot_lda_mailbox_autosubscribe:
+        type: str
+      dovecot_lda_mail_plugins_extra:
+        type: list
+        elements: str
+      dovecot_junk_trash_autoexpunge:
+        type: str
+      dovecot_mailboxes_extra:
+        type: list
+        elements: dict
+        description:
+          - Additional mailboxes.
+        options:
+          name:
+            type: str
+            required: true
+          auto:
+            type: str
+            description:
+              - One of C(no), C(create) or C(subscribe). Defaults to C(subscribe).
+          autoexpunge:
+            type: str
+          sieve_script:
+            type: dict
+            description:
+              - Sieve scripts, keyed by name. Each value is a dict with the required keys C(cause), C(path) and C(type).
+      dovecot_maildir_broken_filename_sizes:
+        type: str
+      dovecot_sieve_common_script_dir:
+        type: path
+      dovecot_sieve_personal_active_path:
+        type: str
+      dovecot_sieve_plugins:
+        type: list
+        elements: str
+        description:
+          - Additional sieve plugins to enable. Optional.
+      dovecot_sieve_max_actions:
+        type: int
+      dovecot_sieve_max_redirects:
+        type: int
+      dovecot_sieve_max_script_size:
+        type: str
+      dovecot_sieve_quota_script_count:
+        type: int
+      dovecot_sieve_quota_storage_size:
+        type: str
+      dovecot_sieve_recipient:
+        type: str
+      dovecot_sieve_redirect_envelope_from:
+        type: str
+      dovecot_ssl_cert:
+        type: str
+        description:
+          - Certificate path used by Dovecot. Defaults to C(/etc/ssl/certs/dovecot.pem).
+      dovecot_ssl_key:
+        type: str
+        description:
+          - Private key path. If unset, a self-signed certificate is generated and C(/etc/ssl/private/dovecot.pem) is used.
+      dovecot_ssl_min_protocol:
+        type: str
+      dovecot_postfix_auth:
+        type: bool
+      dovecot_quota_enforce:
+        type: str
+      dovecot_quota_storage:
+        type: str
+      dovecot_metrics_enabled:
+        type: bool
+      dovecot_metrics_port:
+        type: int
+      dovecot_max_user_inst:
+        type: int
+        description:
+          - Value for C(fs.inotify.max_user_instances). Defaults to 1024.
+      dovecot_backup_lead:
+        type: bool
+        description:
+          - Configure this host as backup leader. Requires C(dovecot_backup_ed25519) and C(dovecot_backup_ed25519_pub).
+      dovecot_backup_follower:
+        type: bool
+        description:
+          - Configure this host as backup follower. Requires C(dovecot_backup_ed25519_pub).
+      dovecot_backup_script_path:
+        type: path
+      dovecot_backup_ed25519:
+        type: str
+        description:
+          - SSH private key for backup synchronization (leader only).
+      dovecot_backup_ed25519_pub:
+        type: str
+        description:
+          - SSH public key for backup synchronization.
+      dovecot_systemd_environment:
+        type: str
