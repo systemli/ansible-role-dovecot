@@ -1,0 +1,198 @@
+---
+argument_specs:
+  main:
+    short_description: Install and maintain Dovecot (2.4) on Debian
+    description:
+      - Installs and configures Dovecot with virtual mail users, sieve, quota and optional backup synchronization.
+    options:
+      dovecot_auth_mechanisms:
+        type: list
+        elements: str
+        default: [sql]
+      dovecot_allow_cleartext_auth:
+        type: str
+        description:
+          - Value of C(auth_allow_cleartext). Defaults to C(no) if unset.
+      dovecot_apt_packages:
+        type: list
+        elements: str
+        default:
+          - dovecot-core
+          - dovecot-common
+          - dovecot-imapd
+          - dovecot-pop3d
+          - dovecot-lmtpd
+          - dovecot-sieve
+          - dovecot-managesieved
+      dovecot_dependencies:
+        type: list
+        elements: str
+        default: [procps]
+      dovecot_default_vsz_limit:
+        type: str
+        default: 1G
+      dovecot_default_process_limit:
+        type: int
+        default: 1000
+      dovecot_default_client_limit:
+        type: int
+        default: 10000
+      dovecot_mail_max_userip_connections:
+        type: int
+        default: 10
+      dovecot_auth_worker_user:
+        type: str
+        default: root
+      dovecot_remote_connections:
+        type: dict
+        description:
+          - Remote specific overrides, keyed by IP address. Each value is a dict of Dovecot settings, for example C(mail_max_userip_connections).
+      dovecot_service_process_min_avail:
+        type: int
+        default: "{{ ansible_processor_cores * ansible_processor_count }}"
+      dovecot_service_restart_request_count:
+        type: int
+        default: 1024
+      dovecot_mail_home:
+        type: str
+        default: "{{ dovecot_vmail_path }}/%{user | domain | lower}/%{user | username | lower}"
+      dovecot_vmail_path:
+        type: path
+        default: /var/vmail
+      dovecot_mail_uid:
+        type: int
+        default: 5000
+      dovecot_mail_gid:
+        type: int
+        description:
+          - Currently not used by the role's templates, which use C(dovecot_mail_uid) for the group as well.
+        default: "{{ dovecot_mail_uid }}"
+      dovecot_mail_plugins:
+        type: list
+        elements: str
+        default: [mail_crypt, quota]
+      dovecot_mail_plugins_imap:
+        type: list
+        elements: str
+        default: [imap_quota, imap_sieve]
+      dovecot_lda_mailbox_autosubscribe:
+        type: str
+        default: "yes"
+      dovecot_lda_mail_plugins_extra:
+        type: list
+        elements: str
+        default: [sieve]
+      dovecot_junk_trash_autoexpunge:
+        type: str
+        default: 30d
+      dovecot_mailboxes_extra:
+        type: list
+        elements: dict
+        description:
+          - Additional mailboxes.
+        default: []
+        options:
+          name:
+            type: str
+            required: true
+          auto:
+            type: str
+            description:
+              - One of C(no), C(create) or C(subscribe). Defaults to C(subscribe).
+          autoexpunge:
+            type: str
+          sieve_script:
+            type: dict
+            description:
+              - Sieve scripts, keyed by name. Each value is a dict with the required keys C(cause), C(path) and C(type).
+      dovecot_maildir_broken_filename_sizes:
+        type: str
+        default: "no"
+      dovecot_sieve_common_script_dir:
+        type: path
+        default: /etc/dovecot/sieve
+      dovecot_sieve_personal_active_path:
+        type: str
+        default: "~/.dovecot.sieve"
+      dovecot_sieve_plugins:
+        type: list
+        elements: str
+        description:
+          - Additional sieve plugins to enable. Optional.
+      dovecot_sieve_max_actions:
+        type: int
+        default: 32
+      dovecot_sieve_max_redirects:
+        type: int
+        default: 20
+      dovecot_sieve_max_script_size:
+        type: str
+        default: 1M
+      dovecot_sieve_quota_script_count:
+        type: int
+        default: 10
+      dovecot_sieve_quota_storage_size:
+        type: str
+        default: 1M
+      dovecot_sieve_recipient:
+        type: str
+        default: spam@localhost
+      dovecot_sieve_redirect_envelope_from:
+        type: str
+        default: orig_recipient
+      dovecot_ssl_cert:
+        type: str
+        description:
+          - Certificate path used by Dovecot. Defaults to C(/etc/ssl/certs/dovecot.pem).
+      dovecot_ssl_key:
+        type: str
+        description:
+          - Private key path. If unset, a self-signed certificate is generated and C(/etc/ssl/private/dovecot.pem) is used.
+      dovecot_ssl_min_protocol:
+        type: str
+        default: TLSv1.2
+      dovecot_postfix_auth:
+        type: bool
+        default: false
+      dovecot_quota_enforce:
+        type: str
+        default: "yes"
+      dovecot_quota_storage:
+        type: str
+        default: 1G
+      dovecot_metrics_enabled:
+        type: bool
+        default: false
+      dovecot_metrics_port:
+        type: int
+        default: 9900
+      dovecot_max_user_inst:
+        type: int
+        description:
+          - Value for C(fs.inotify.max_user_instances). Defaults to 1024.
+      dovecot_backup_lead:
+        type: bool
+        description:
+          - Configure this host as backup leader. Requires C(dovecot_backup_ed25519) and C(dovecot_backup_ed25519_pub).
+        default: false
+      dovecot_backup_follower:
+        type: bool
+        description:
+          - Configure this host as backup follower. Requires C(dovecot_backup_ed25519_pub).
+        default: false
+      dovecot_backup_script_path:
+        type: path
+        default: /root/sync_mailboxes_to_remote.sh
+      dovecot_backup_ed25519:
+        type: str
+        description:
+          - SSH private key for backup synchronization (leader only).
+      dovecot_backup_ed25519_pub:
+        type: str
+        description:
+          - SSH public key for backup synchronization.
+      dovecot_systemd_environment:
+        type: str
+        default: |
+          # Set to '1' to allow Dovecot daemons to produce core dumps
+          #ALLOW_COREDUMPS=1
