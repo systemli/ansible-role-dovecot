@@ -1,6 +1,7 @@
 ---
-- name: Validate # noqa no-changed-when
+- name: Validate
   ansible.builtin.command: "/usr/bin/doveconf"
+  changed_when: false
   check_mode: false
   listen: Validate
 
@@ -13,7 +14,8 @@
   ansible.builtin.systemd:
     daemon_reload: true
 
-- name: Compile sieve scripts # noqa no-changed-when
+- name: Compile sieve scripts
   ansible.builtin.command: "/usr/bin/sievec {{ dovecot_sieve_common_script_dir }}"
+  changed_when: true
   notify:
     - Restart
